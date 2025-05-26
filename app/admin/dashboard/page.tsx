@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from "react";
+import api from "@/lib/api";
 
 export default function AdminDashboard() {
   const [selected, setSelected] = useState<"event" | "project" | "team">("event");
@@ -59,22 +60,37 @@ export default function AdminDashboard() {
     setTeamForm({ ...teamForm, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Event submitted! (DB integration pending)");
-    setForm({ image: "", name: "", date: "", time: "", location: "", description: "" });
+    try {
+      await api.post("/events", form);
+      alert("Event submitted!");
+      setForm({ image: "", name: "", date: "", time: "", location: "", description: "" });
+    } catch (err: any) {
+      alert("Failed to submit event");
+    }
   };
 
-  const handleProjectSubmit = (e: React.FormEvent) => {
+  const handleProjectSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Project submitted! (DB integration pending)\nTags: " + JSON.stringify(projectForm.tags));
-    setProjectForm({ title: "", description: "", tags: [], github: "", demo: "" });
+    try {
+      await api.post("/projects", { ...projectForm, tags: projectForm.tags });
+      alert("Project submitted!");
+      setProjectForm({ title: "", description: "", tags: [], github: "", demo: "" });
+    } catch (err: any) {
+      alert("Failed to submit project");
+    }
   };
 
-  const handleTeamSubmit = (e: React.FormEvent) => {
+  const handleTeamSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Team member submitted! (DB integration pending)");
-    setTeamForm({ name: "", role: "", bio: "", image: "", github: "", linkedin: "", email: "" });
+    try {
+      await api.post("/members", teamForm);
+      alert("Team member submitted!");
+      setTeamForm({ name: "", role: "", bio: "", image: "", github: "", linkedin: "", email: "" });
+    } catch (err: any) {
+      alert("Failed to submit team member");
+    }
   };
 
   return (

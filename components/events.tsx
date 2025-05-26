@@ -17,22 +17,25 @@ import { CalendarDays, MapPin, Clock } from "lucide-react"
 import { useEffect, useState } from "react"
 import api from "@/lib/api"
 
-export default function Events() {
-  const [events, setEvents] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
+export default function Events({ initialEvents }: { initialEvents: any[] }) {
+  const [events, setEvents] = useState<any[]>(initialEvents || [])
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
   useEffect(() => {
-    api.get("/events")
-      .then(res => {
-        setEvents(res.data)
-        setLoading(false)
-      })
-      .catch(() => {
-        setError("Failed to load events.")
-        setLoading(false)
-      })
-  }, [])
+    if (!initialEvents || initialEvents.length === 0) {
+      setLoading(true)
+      api.get("/events")
+        .then(res => {
+          setEvents(res.data)
+          setLoading(false)
+        })
+        .catch(() => {
+          setError("Failed to load events.")
+          setLoading(false)
+        })
+    }
+  }, [initialEvents])
 
   interface Event {
     image: string
@@ -45,7 +48,7 @@ export default function Events() {
   }
 
   const EventCard = ({ event }: { event: Event }) => (
-    <Card className="group overflow-hidden border border-border shadow-md transition-all duration-300 hover:shadow-xl hover:shadow-blue-200 hover:-translate-y-1 bg-background/80 backdrop-blur-md">
+    <Card className="group overflow-hidden border border-border shadow-md transition-all duration-300 hover:shadow-lg hover:shadow-blue-100 hover:-translate-y-0.5 bg-background/80 backdrop-blur-md">
       <CardHeader className="flex flex-col sm:flex-row gap-4 items-center">
         <div className="h-40 w-full sm:w-40 flex-shrink-0 overflow-hidden rounded-md bg-muted">
           <img

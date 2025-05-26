@@ -15,22 +15,25 @@ import clsx from "clsx"
 import { useEffect, useState } from "react"
 import api from "@/lib/api"
 
-export default function Projects() {
-  const [projects, setProjects] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
+export default function Projects({ initialProjects }: { initialProjects: any[] }) {
+  const [projects, setProjects] = useState<any[]>(initialProjects || [])
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
   useEffect(() => {
-    api.get("/projects")
-      .then(res => {
-        setProjects(res.data)
-        setLoading(false)
-      })
-      .catch(() => {
-        setError("Failed to load projects.")
-        setLoading(false)
-      })
-  }, [])
+    if (!initialProjects || initialProjects.length === 0) {
+      setLoading(true)
+      api.get("/projects")
+        .then(res => {
+          setProjects(res.data)
+          setLoading(false)
+        })
+        .catch(() => {
+          setError("Failed to load projects.")
+          setLoading(false)
+        })
+    }
+  }, [initialProjects])
 
   return (
     <section id="projects" className="py-20 bg-gradient-to-b from-background to-muted">
@@ -51,7 +54,7 @@ export default function Projects() {
               <Card
                 key={project._id || index}
                 className={clsx(
-                  "relative overflow-hidden bg-background/70 backdrop-blur border border-border shadow-md transition-all duration-300 hover:shadow-xl hover:shadow-blue-200 hover:-translate-y-1",
+                  "relative overflow-hidden bg-background/70 backdrop-blur border border-border shadow-md transition-all duration-300 hover:shadow-lg hover:shadow-blue-100 hover:-translate-y-0.5",
                   project.featured && "border-primary/30"
                 )}
               >

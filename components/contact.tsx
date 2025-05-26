@@ -4,8 +4,21 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Github, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import {
+  Github,
+  Instagram,
+  Linkedin,
+  Mail,
+  MapPin,
+  Phone,
+} from "lucide-react"
 import Link from "next/link"
 
 export default function Contact() {
@@ -16,103 +29,84 @@ export default function Contact() {
     message: "",
   })
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  interface FormData {
-    name: string
-    email: string
-    subject: string
-    message: string
-  }
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // Here you would typically handle form submission
     console.log("Form submitted:", formData)
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    })
-    // Show success message
+    setFormData({ name: "", email: "", subject: "", message: "" })
     alert("Message sent successfully!")
   }
 
   return (
     <section id="contact" className="py-20 bg-background">
       <div className="container">
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">Get in Touch</h2>
-          <p className="mt-4 text-muted-foreground">Have questions or want to join? Reach out to us!</p>
+        <div className="mb-16 text-center">
+          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+            Get in Touch
+          </h2>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+            Whether you're curious about our club, want to collaborate, or have questions—reach out!
+          </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2">
-          <Card>
+        <div className="grid gap-10 md:grid-cols-2">
+          <Card className="shadow-md hover:shadow-lg transition-all duration-300 border-none bg-muted/40">
             <CardHeader>
-              <CardTitle>Contact Information</CardTitle>
-              <CardDescription>Find us through these channels</CardDescription>
+              <CardTitle className="text-xl font-semibold">Contact Information</CardTitle>
+              <CardDescription>Reach us through the following details</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center">
-                <MapPin className="mr-3 h-5 w-5 text-muted-foreground" />
-                <span>Engineering Building, Room 305, University Campus</span>
+            <CardContent className="space-y-5 text-base">
+              <div className="flex items-center gap-3">
+                <MapPin className="h-5 w-5 text-primary" />
+                <span>Engineering Building, Amrita Campus</span>
               </div>
-              <div className="flex items-center">
-                <Mail className="mr-3 h-5 w-5 text-muted-foreground" />
+              <div className="flex items-center gap-3">
+                <Mail className="h-5 w-5 text-primary" />
                 <Link href="mailto:info@inteliotclub.edu" className="hover:underline">
                   info@inteliotclub.edu
                 </Link>
               </div>
-              <div className="flex items-center">
-                <Phone className="mr-3 h-5 w-5 text-muted-foreground" />
+              <div className="flex items-center gap-3">
+                <Phone className="h-5 w-5 text-primary" />
                 <Link href="tel:+1234567890" className="hover:underline">
                   (123) 456-7890
                 </Link>
               </div>
 
-              <div className="mt-6 pt-6 border-t">
-                <h3 className="mb-4 font-medium">Follow Us</h3>
-                <div className="flex space-x-4">
-                  <Link
-                    href="#"
-                    className="text-muted-foreground transition-all duration-300 hover:text-primary hover:scale-110"
-                  >
+              <div className="pt-6 border-t border-border">
+                <h3 className="mb-3 text-sm font-medium uppercase tracking-wide text-muted-foreground">
+                  Follow Us
+                </h3>
+                <div className="flex gap-5">
+                  <Link href="#" className="hover:text-primary transition-all">
                     <Github className="h-6 w-6" />
-                    <span className="sr-only">GitHub</span>
                   </Link>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground transition-all duration-300 hover:text-primary hover:scale-110"
-                  >
+                  <Link href="#" className="hover:text-primary transition-all">
                     <Linkedin className="h-6 w-6" />
-                    <span className="sr-only">LinkedIn</span>
                   </Link>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground transition-all duration-300 hover:text-primary hover:scale-110"
-                  >
+                  <Link href="#" className="hover:text-primary transition-all">
                     <Instagram className="h-6 w-6" />
-                    <span className="sr-only">Instagram</span>
                   </Link>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="shadow-md hover:shadow-lg transition-all duration-300 border-none bg-muted/40">
             <CardHeader>
-              <CardTitle>Send us a Message</CardTitle>
-              <CardDescription>We'll get back to you as soon as possible</CardDescription>
+              <CardTitle className="text-xl font-semibold">Send a Message</CardTitle>
+              <CardDescription>We usually respond within 24 hours</CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium">
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div>
+                  <label htmlFor="name" className="block mb-1 text-sm font-medium">
                     Name
                   </label>
                   <Input
@@ -122,11 +116,12 @@ export default function Contact() {
                     onChange={handleChange}
                     placeholder="Your name"
                     required
+                    className="rounded-md"
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium">
+                <div>
+                  <label htmlFor="email" className="block mb-1 text-sm font-medium">
                     Email
                   </label>
                   <Input
@@ -137,11 +132,12 @@ export default function Contact() {
                     onChange={handleChange}
                     placeholder="Your email"
                     required
+                    className="rounded-md"
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <label htmlFor="subject" className="text-sm font-medium">
+                <div>
+                  <label htmlFor="subject" className="block mb-1 text-sm font-medium">
                     Subject
                   </label>
                   <Input
@@ -151,11 +147,12 @@ export default function Contact() {
                     onChange={handleChange}
                     placeholder="Subject"
                     required
+                    className="rounded-md"
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <label htmlFor="message" className="text-sm font-medium">
+                <div>
+                  <label htmlFor="message" className="block mb-1 text-sm font-medium">
                     Message
                   </label>
                   <Textarea
@@ -166,12 +163,13 @@ export default function Contact() {
                     placeholder="Your message"
                     rows={5}
                     required
+                    className="rounded-md"
                   />
                 </div>
 
                 <Button
                   type="submit"
-                  className="w-full rounded-full transition-all duration-300 hover:shadow-md hover:shadow-primary/20"
+                  className="w-full rounded-full transition-all duration-300 bg-primary text-white hover:bg-primary/90 hover:shadow-lg"
                 >
                   Send Message
                 </Button>

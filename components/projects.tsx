@@ -1,7 +1,15 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Github, ExternalLink } from "lucide-react"
+import { Github, ExternalLink, Star } from "lucide-react"
 import Link from "next/link"
+import clsx from "clsx"
 
 export default function Projects() {
   const projects = [
@@ -11,6 +19,7 @@ export default function Projects() {
       tags: ["Intel Edison", "Node.js", "MQTT"],
       github: "#",
       demo: "#",
+      featured: true,
     },
     {
       title: "Health Monitoring Wearable",
@@ -32,6 +41,7 @@ export default function Projects() {
       tags: ["Intel NUC", "RaspberryPi", "Voice Recognition"],
       github: "#",
       demo: "#",
+      featured: true,
     },
     {
       title: "Traffic Management System",
@@ -50,40 +60,53 @@ export default function Projects() {
   ]
 
   return (
-    <section id="projects" className="py-20 bg-muted">
+    <section id="projects" className="py-20 bg-gradient-to-b from-background to-muted">
       <div className="container">
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">Our Projects</h2>
-          <p className="mt-4 text-muted-foreground">Innovative solutions built by our members</p>
+        <div className="mb-14 text-center">
+          <h2 className="text-4xl font-bold sm:text-5xl tracking-tight">Our Projects</h2>
+          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+            Explore cutting-edge IoT solutions built by our talented members — from smart wearables to scalable city systems.
+          </p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, index) => (
             <Card
               key={index}
-              className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:translate-y-[-5px] dark:hover:shadow-primary/10"
+              className={clsx(
+                "relative overflow-hidden bg-background/70 backdrop-blur border border-border shadow-md transition-all duration-300 hover:shadow-xl hover:shadow-blue-200 hover:-translate-y-1",
+                project.featured && "border-primary/30"
+              )}
             >
+              {project.featured && (
+                <div className="absolute top-4 right-4 z-10 flex items-center gap-1 text-sm font-semibold text-primary bg-primary/10 px-2.5 py-1 rounded-full">
+                  <Star className="h-4 w-4" />
+                  Featured
+                </div>
+              )}
               <CardHeader>
-                <CardTitle>{project.title}</CardTitle>
+                <CardTitle className="text-xl font-semibold">{project.title}</CardTitle>
                 <CardDescription>{project.description}</CardDescription>
               </CardHeader>
-              <CardContent>
+
+              <CardContent className="pb-4">
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag, tagIndex) => (
                     <span
                       key={tagIndex}
-                      className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors hover:bg-primary/10 hover:border-primary/30"
+                      className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium text-muted-foreground bg-muted hover:bg-primary/10 hover:text-primary transition"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
               </CardContent>
-              <CardFooter className="flex justify-between">
+
+              <CardFooter className="flex justify-between pt-0">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="rounded-full transition-all duration-300 hover:bg-primary/10 hover:border-primary/30"
+                  className="rounded-full text-sm font-medium"
                   asChild
                 >
                   <Link href={project.github}>
@@ -94,7 +117,7 @@ export default function Projects() {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="rounded-full transition-all duration-300 hover:bg-primary/10 hover:border-primary/30"
+                  className="rounded-full text-sm font-medium"
                   asChild
                 >
                   <Link href={project.demo}>

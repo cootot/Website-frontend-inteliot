@@ -31,7 +31,7 @@ export default function Hero() {
             className="group relative overflow-hidden rounded-full bg-primary px-6 py-2 transition-all duration-300 ease-out hover:bg-primary/90 hover:pl-9"
             asChild
           >
-            <Link href="#contact">
+            <Link href="/contact">
               Join the Club
             </Link>
           </Button>

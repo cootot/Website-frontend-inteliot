@@ -64,33 +64,28 @@ export default function Contact() {
             <CardContent className="space-y-5 text-base">
               <div className="flex items-center gap-3">
                 <MapPin className="h-5 w-5 text-primary" />
-                <span>Engineering Building, Amrita Campus</span>
+                <span>Amrita Vishwa Vidyapeetham, Coimbatore</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-primary" />
                 <Link href="mailto:info@inteliotclub.edu" className="hover:underline">
-                  info@inteliotclub.edu
+                  inteliotclub@gmail.com
                 </Link>
               </div>
-              <div className="flex items-center gap-3">
-                <Phone className="h-5 w-5 text-primary" />
-                <Link href="tel:+1234567890" className="hover:underline">
-                  (123) 456-7890
-                </Link>
-              </div>
+
 
               <div className="pt-6 border-t border-border">
                 <h3 className="mb-3 text-sm font-medium uppercase tracking-wide text-muted-foreground">
                   Follow Us
                 </h3>
                 <div className="flex gap-5">
-                  <Link href="#" className="hover:text-primary transition-all">
+                  <Link href="https://github.com/intel-iot-club" className="hover:text-primary transition-all">
                     <Github className="h-6 w-6" />
                   </Link>
-                  <Link href="#" className="hover:text-primary transition-all">
+                  <Link href="https://www.linkedin.com/company/intel-iot-club/" className="hover:text-primary transition-all">
                     <Linkedin className="h-6 w-6" />
                   </Link>
-                  <Link href="#" className="hover:text-primary transition-all">
+                  <Link href="https://www.instagram.com/inteliotclub" className="hover:text-primary transition-all">
                     <Instagram className="h-6 w-6" />
                   </Link>
                 </div>

@@ -41,9 +41,11 @@ export default function Navbar() {
             </Link>
           ))}
           <ThemeToggle />
-          <Button size="lg" className="ml-2 text-base font-semibold px-5 py-2.5">
-            Join the Club
-          </Button>
+          <Link href="/contact">
+            <Button size="lg" className="ml-2 text-base font-semibold px-5 py-2.5">
+              Join the Club
+            </Button>
+          </Link>
         </nav>
 
         <button
@@ -75,7 +77,9 @@ export default function Navbar() {
           ))}
           <div className="mt-4 flex items-center justify-between gap-2">
             <ThemeToggle />
-            <Button size="sm" className="w-auto">Join the Club</Button>
+            <Link href="/contact">
+              <Button size="sm" className="w-auto">Join the Club</Button>
+            </Link>
           </div>
         </div>
       </div>

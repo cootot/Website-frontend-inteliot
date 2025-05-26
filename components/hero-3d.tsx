@@ -1,139 +1,151 @@
 "use client"
 
-import { JSX, useRef } from "react"
+import { JSX, useRef, useMemo, useState } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
-import { OrbitControls, Environment, Float } from "@react-three/drei"
+import { OrbitControls, Environment, Float, Stars, Html } from "@react-three/drei"
+import { EffectComposer, Bloom, DepthOfField, Noise } from "@react-three/postprocessing"
 import * as THREE from "three"
 
-// Simple IoT device representation instead of loading a model
-// Removed unnecessary import of JSX
+const GlassMaterial = new THREE.MeshPhysicalMaterial({
+  color: new THREE.Color("#00ffff"),
+  roughness: 0,
+  metalness: 0.2,
+  transmission: 1,
+  thickness: 0.5,
+  emissive: new THREE.Color("#00ffff"),
+  emissiveIntensity: 1.5,
+  clearcoat: 1,
+})
 
-function IoTDevice(props: JSX.IntrinsicElements['group']) {
-  const meshRef = useRef<THREE.Mesh | null>(null)
+function IoTDevice(props: JSX.IntrinsicElements["group"]) {
+  const [hovered, setHovered] = useState(false)
+  const baseRef = useRef<THREE.Mesh | null>(null)
+  const pulseRef = useRef<THREE.Mesh | null>(null)
 
   useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.2
+    const t = state.clock.getElapsedTime()
+    if (baseRef.current) {
+      baseRef.current.rotation.y = t * 0.4
+    }
+    if (pulseRef.current) {
+      const scale = 1 + Math.sin(t * 4) * 0.08
+      pulseRef.current.scale.set(scale, scale, scale)
     }
   })
 
   return (
     <group {...props}>
-      {/* Base of the device */}
-      <mesh ref={meshRef} castShadow receiveShadow>
-        <boxGeometry args={[1, 0.2, 1]} />
-        <meshStandardMaterial color="#3291FF" />
+      <mesh ref={baseRef} castShadow receiveShadow>
+        <boxGeometry args={[1.4, 0.2, 1.4]} />
+        <meshStandardMaterial color={hovered ? "#0088FF" : "#0071C5"} metalness={0.5} roughness={0.4} />
       </mesh>
 
-      {/* Circuit board details */}
-      <mesh position={[0, 0.15, 0]} castShadow>
-        <boxGeometry args={[0.8, 0.05, 0.8]} />
-        <meshStandardMaterial color="#1a1a1a" />
+      <mesh position={[0, 0.2, 0]} castShadow>
+        <boxGeometry args={[1.2, 0.05, 1.2]} />
+        <meshStandardMaterial color="#111" />
       </mesh>
 
-      {/* Components */}
-      <mesh position={[-0.25, 0.2, -0.25]} castShadow>
-        <boxGeometry args={[0.2, 0.1, 0.2]} />
-        <meshStandardMaterial color="#555555" />
+      {[-0.4, 0, 0.4].map((x, i) =>
+        [-0.4, -0.2, 0, 0.2, 0.4].map((z) => (
+          <mesh key={`${i}-${z}`} position={[x, 0.3, z]}>
+            <boxGeometry args={[0.05, 0.2, 0.05]} />
+            <meshStandardMaterial color="#333" />
+          </mesh>
+        ))
+      )}
+
+      <mesh
+        ref={pulseRef}
+        position={[0.5, 0.35, 0.5]}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
+      >
+        <sphereGeometry args={[0.06, 16, 16]} />
+        <meshStandardMaterial color="#00ff99" emissive="#00ff99" emissiveIntensity={3} />
       </mesh>
 
-      <mesh position={[0.25, 0.2, -0.25]} castShadow>
-        <boxGeometry args={[0.15, 0.15, 0.15]} />
-        <meshStandardMaterial color="#444444" />
+      <mesh position={[-0.5, 0.35, -0.5]}>
+        <cylinderGeometry args={[0.02, 0.02, 0.4, 16]} />
+        <meshStandardMaterial color="#aaa" />
       </mesh>
 
-      <mesh position={[0, 0.2, 0.25]} castShadow>
-        <cylinderGeometry args={[0.15, 0.15, 0.1, 16]} />
-        <meshStandardMaterial color="#333333" />
+      <mesh position={[0, 0.3, 0]} material={GlassMaterial}>
+        <cylinderGeometry args={[0.2, 0.2, 0.12, 32]} />
       </mesh>
 
-      {/* LED light */}
-      <mesh position={[-0.3, 0.25, 0.3]} castShadow>
-        <sphereGeometry args={[0.05, 16, 16]} />
-        <meshStandardMaterial color="#ff3333" emissive="#ff0000" emissiveIntensity={2} />
+      <mesh rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[1.8, 0.015, 16, 100]} />
+        <meshStandardMaterial color="#00B2FF" emissive="#00B2FF" emissiveIntensity={0.5} transparent opacity={0.6} />
       </mesh>
+      
     </group>
   )
 }
 
-function Nodes({ count = 20, radius = 4 }) {
-  const points = useRef<THREE.Vector3[]>([])
-  const lineRef = useRef<THREE.Line | null>(null)
-
-  // Generate random points on a sphere
-  if (points.current.length === 0) {
+function Nodes({ count = 40, radius = 6 }) {
+  const points = useMemo(() => {
+    const arr = []
     for (let i = 0; i < count; i++) {
       const phi = Math.acos(-1 + (2 * i) / count)
       const theta = Math.sqrt(count * Math.PI) * phi
-
       const x = radius * Math.sin(phi) * Math.cos(theta)
       const y = radius * Math.sin(phi) * Math.sin(theta)
       const z = radius * Math.cos(phi)
-
-      points.current.push(new THREE.Vector3(x, y, z))
+      arr.push(new THREE.Vector3(x, y, z))
     }
-  }
+    return arr
+  }, [count, radius])
 
-  useFrame(() => {
-    if (lineRef.current) {
-      const positions = lineRef.current.geometry.attributes.position.array
+  const groupRef = useRef<THREE.Group>(null)
 
-      for (let i = 0; i < points.current.length; i++) {
-        const point = points.current[i]
-        // Add subtle movement
-        point.x += Math.sin(Date.now() * 0.001 + i) * 0.01
-        point.y += Math.cos(Date.now() * 0.001 + i) * 0.01
-        point.z += Math.sin(Date.now() * 0.002 + i) * 0.01
-
-        positions[i * 3] = point.x
-        positions[i * 3 + 1] = point.y
-        positions[i * 3 + 2] = point.z
-      }
-
-      lineRef.current.geometry.attributes.position.needsUpdate = true
-    }
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime()
+    groupRef.current?.children.forEach((child, i) => {
+      const mesh = child as THREE.Mesh
+      const base = points[i]
+      mesh.position.x = base.x + Math.sin(t + i) * 0.12
+      mesh.position.y = base.y + Math.cos(t + i) * 0.12
+      mesh.position.z = base.z + Math.sin(t * 0.5 + i) * 0.12
+    })
   })
 
-  // Create a buffer geometry for the points
-  const pointsGeometry = new THREE.BufferGeometry()
-  const positions = new Float32Array(points.current.length * 3)
-
-  for (let i = 0; i < points.current.length; i++) {
-    positions[i * 3] = points.current[i].x
-    positions[i * 3 + 1] = points.current[i].y
-    positions[i * 3 + 2] = points.current[i].z
-  }
-
-  pointsGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3))
-
   return (
-    <group>
-      {points.current.map((position, i) => (
-        <mesh key={i} position={[position.x, position.y, position.z]}>
-          <sphereGeometry args={[0.08, 16, 16]} />
-          <meshStandardMaterial color="#3291FF" emissive="#3291FF" emissiveIntensity={0.5} />
+    <group ref={groupRef}>
+      {points.map((point, i) => (
+        <mesh key={i} position={point}>
+          <sphereGeometry args={[0.06, 16, 16]} />
+          <meshStandardMaterial color="#00B2FF" emissive="#00B2FF" emissiveIntensity={0.8} />
         </mesh>
       ))}
-      <primitive object={new THREE.Line(pointsGeometry, new THREE.LineBasicMaterial({ color: "#3291FF", opacity: 0.4, transparent: true }))} ref={lineRef} />
     </group>
   )
 }
 
 export default function Hero3D() {
   return (
-    <div className="absolute inset-0 z-0 opacity-70">
-      <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>
-        <ambientLight intensity={0.5} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-        <pointLight position={[-10, -10, -10]} />
+    <div className="absolute inset-0 z-0 opacity-90">
+      <Canvas camera={{ position: [0, 0, 10], fov: 50 }} shadows gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping }}>
+        <fog attach="fog" args={["#000", 10, 30]} />
 
-        <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
-          <IoTDevice position={[0, 0, 0]} scale={1.5} />
+        <ambientLight intensity={0.2} />
+        <spotLight position={[5, 10, 5]} angle={0.3} penumbra={1} intensity={1.4} castShadow />
+        <pointLight position={[-5, -5, -5]} intensity={0.6} color="#00ffff" />
+
+        <Float speed={2} rotationIntensity={0.5} floatIntensity={0.9}>
+          <IoTDevice position={[0, -0.6, 0]} scale={1.7} />
         </Float>
 
-        <Nodes count={30} radius={5} />
+        <Nodes />
+        <Stars radius={80} depth={50} count={1200} factor={6} fade speed={1.2} />
+
         <Environment preset="city" />
-        <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
+        <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.6} />
+
+        <EffectComposer>
+          <Bloom intensity={0.8} luminanceThreshold={0} luminanceSmoothing={0.2} />
+          <Noise opacity={0.02} />
+          <DepthOfField focusDistance={0.005} focalLength={0.02} bokehScale={2} height={480} />
+        </EffectComposer>
       </Canvas>
     </div>
   )

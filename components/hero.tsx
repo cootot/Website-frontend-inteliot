@@ -5,15 +5,19 @@ import Hero3D from "@/components/hero-3d"
 
 export default function Hero() {
   return (
-    <section id="home" className="relative overflow-hidden bg-gradient-to-b from-background to-muted py-20 md:py-32 mb-0 pb-0">
-      <Hero3D />
+    <section
+      id="home"
+      className="relative overflow-hidden bg-background py-20 md:py-32 mb-0 pb-0"
+    >
 
+      <Hero3D />
       <div className="container relative z-10 flex flex-col items-center justify-center text-center">
         <div className="mb-6 inline-flex items-center justify-center rounded-full bg-primary/10 px-3 py-1 text-sm text-primary">
+
           <img src="/logo.png" alt="IoT Club Logo" className="h-16 w-60" />
         </div>
 
-        <h1 className="mb-48 max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+        <h1 className="mb-48 max-w-4xl text-4xl  font-bold tracking-tight sm:text-5xl md:text-6xl">
           Empowering Innovation through Intel IoT
         </h1>
 

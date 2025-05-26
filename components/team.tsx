@@ -1,4 +1,11 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Github, Linkedin, Mail } from "lucide-react"
 import Link from "next/link"
@@ -62,53 +69,60 @@ export default function Team() {
   ]
 
   return (
-    <section id="team" className="py-20 bg-muted">
+    <section id="team" className="py-20 bg-gradient-to-b from-background to-muted">
       <div className="container">
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">Our Team</h2>
-          <p className="mt-4 text-muted-foreground">Meet the people behind Intel IoT Club</p>
+        <div className="mb-16 text-center">
+          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">Meet Our Team</h2>
+          <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-lg">
+            The passionate minds driving the Intel IoT Club forward
+          </p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {teamMembers.map((member, index) => (
             <Card
               key={index}
-              className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:translate-y-[-5px] dark:hover:shadow-primary/10"
+              className="group overflow-hidden border border-border shadow-md transition-all duration-300 hover:shadow-xl hover:shadow-blue-200 hover:-translate-y-1 bg-background/80 backdrop-blur-md"
             >
-              <CardHeader className="text-center">
-                <Avatar className="mx-auto h-24 w-24 ring-2 ring-primary/20 transition-all duration-300 hover:ring-primary">
-                  <AvatarImage src={member.image || "/placeholder.svg"} alt={member.name} />
-                  <AvatarFallback>
-                    {member.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </AvatarFallback>
-                </Avatar>
-                <CardTitle className="mt-4">{member.name}</CardTitle>
-                <CardDescription>{member.role}</CardDescription>
+              <CardHeader className="text-center flex flex-col items-center">
+                <div className="relative">
+                  <Avatar className="h-24 w-24 ring-2 ring-primary/20 group-hover:ring-primary transition-all duration-300">
+                    <AvatarImage src={member.image} alt={member.name} />
+                    <AvatarFallback>
+                      {member.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="absolute inset-0 rounded-full shadow-inner" />
+                </div>
+                <CardTitle className="mt-4 text-lg font-semibold">{member.name}</CardTitle>
+                <CardDescription className="text-sm">{member.role}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <p className="text-center text-sm text-muted-foreground">{member.bio}</p>
+
+              <CardContent className="text-center px-6 pb-4">
+                <p className="text-sm text-muted-foreground">{member.bio}</p>
               </CardContent>
-              <CardFooter className="flex justify-center gap-4">
+
+              <CardFooter className="flex justify-center gap-5 pt-0 pb-6">
                 <Link
                   href={member.github}
-                  className="text-muted-foreground transition-all duration-300 hover:text-primary hover:scale-110"
+                  className="text-muted-foreground hover:text-primary hover:scale-110 transition-all"
                 >
                   <Github className="h-5 w-5" />
                   <span className="sr-only">GitHub</span>
                 </Link>
                 <Link
                   href={member.linkedin}
-                  className="text-muted-foreground transition-all duration-300 hover:text-primary hover:scale-110"
+                  className="text-muted-foreground hover:text-primary hover:scale-110 transition-all"
                 >
                   <Linkedin className="h-5 w-5" />
                   <span className="sr-only">LinkedIn</span>
                 </Link>
                 <Link
                   href={`mailto:${member.email}`}
-                  className="text-muted-foreground transition-all duration-300 hover:text-primary hover:scale-110"
+                  className="text-muted-foreground hover:text-primary hover:scale-110 transition-all"
                 >
                   <Mail className="h-5 w-5" />
                   <span className="sr-only">Email</span>

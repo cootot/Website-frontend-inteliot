@@ -1,7 +1,18 @@
 "use client"
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { CalendarDays, MapPin, Clock } from "lucide-react"
 
 export default function Events() {
@@ -13,7 +24,8 @@ export default function Events() {
       date: "June 15, 2024",
       time: "2:00 PM - 5:00 PM",
       location: "Engineering Building, Room 302",
-      description: "Hands-on workshop on getting started with Intel IoT Development Kit.",
+      description:
+        "Hands-on workshop on getting started with Intel IoT Development Kit.",
     },
     {
       id: 2,
@@ -22,7 +34,8 @@ export default function Events() {
       date: "July 10-12, 2024",
       time: "48-hour event",
       location: "Innovation Center",
-      description: "Build innovative IoT solutions to improve campus life and sustainability.",
+      description:
+        "Build innovative IoT solutions to improve campus life and sustainability.",
     },
     {
       id: 3,
@@ -31,7 +44,8 @@ export default function Events() {
       date: "August 5, 2024",
       time: "4:00 PM - 6:00 PM",
       location: "Main Auditorium",
-      description: "Industry experts from Intel discussing the future trends in IoT technology.",
+      description:
+        "Industry experts from Intel discussing the future trends in IoT technology.",
     },
   ]
 
@@ -43,7 +57,8 @@ export default function Events() {
       date: "April 20, 2024",
       time: "1:00 PM - 4:00 PM",
       location: "Student Center",
-      description: "Members presented their semester-long IoT projects to the campus community.",
+      description:
+        "Members presented their semester-long IoT projects to the campus community.",
     },
     {
       id: 5,
@@ -52,7 +67,8 @@ export default function Events() {
       date: "March 15, 2024",
       time: "3:00 PM - 5:00 PM",
       location: "Engineering Building, Room 201",
-      description: "Learning about security challenges and best practices in IoT implementations.",
+      description:
+        "Learning about security challenges and best practices in IoT implementations.",
     },
     {
       id: 6,
@@ -61,7 +77,8 @@ export default function Events() {
       date: "February 10, 2024",
       time: "10:00 AM - 4:00 PM",
       location: "Innovation Center",
-      description: "Intel representatives showcased the latest IoT technologies and development tools.",
+      description:
+        "Intel representatives showcased the latest IoT technologies and development tools.",
     },
   ]
 
@@ -76,68 +93,64 @@ export default function Events() {
   }
 
   const EventCard = ({ event }: { event: Event }) => (
-    <Card className="mb-4">
-      <CardHeader>
-        <div className="flex items-center gap-4">
-          <div className="h-36 w-36 flex-shrink-0 overflow-hidden rounded-md bg-muted flex items-center justify-center">
-            <img
-              src={event.image || "/placeholder.jpg"}
-              alt={event.name + " poster"}
-              className="object-cover h-full w-full"
-            />
-          </div>
-          <div>
-            <CardTitle>{event.name}</CardTitle>
-            <CardDescription className="flex items-center gap-1">
-              <CalendarDays className="h-4 w-4" /> {event.date}
-            </CardDescription>
-          </div>
+    <Card className="group overflow-hidden border border-border shadow-md transition-all duration-300 hover:shadow-xl hover:shadow-blue-200 hover:-translate-y-1 bg-background/80 backdrop-blur-md">
+      <CardHeader className="flex flex-col sm:flex-row gap-4 items-center">
+        <div className="h-40 w-full sm:w-40 flex-shrink-0 overflow-hidden rounded-md bg-muted">
+          <img
+            src={event.image}
+            alt={event.name + " poster"}
+            className="object-cover h-full w-full"
+          />
+        </div>
+        <div className="w-full">
+          <CardTitle className="text-lg font-semibold mb-1">{event.name}</CardTitle>
+          <CardDescription className="flex items-center gap-2 text-sm text-muted-foreground">
+            <CalendarDays className="h-4 w-4" /> {event.date}
+          </CardDescription>
         </div>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-2">
-          <div className="flex items-center text-sm text-muted-foreground">
-            <Clock className="mr-2 h-4 w-4" />
-            <span>{event.time}</span>
-          </div>
-          <div className="flex items-center text-sm text-muted-foreground">
-            <MapPin className="mr-2 h-4 w-4" />
-            <span>{event.location}</span>
-          </div>
-          <p className="mt-2">{event.description}</p>
+      <CardContent className="space-y-2 text-sm">
+        <div className="flex items-center text-muted-foreground">
+          <Clock className="mr-2 h-4 w-4" />
+          {event.time}
         </div>
+        <div className="flex items-center text-muted-foreground">
+          <MapPin className="mr-2 h-4 w-4" />
+          {event.location}
+        </div>
+        <p className="text-foreground mt-2">{event.description}</p>
       </CardContent>
     </Card>
   )
 
   return (
-    <section id="events" className="py-20 bg-background">
+    <section id="events" className="py-20 bg-gradient-to-b from-background to-muted">
       <div className="container">
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">Events</h2>
-          <p className="mt-4 text-muted-foreground">Join us for workshops, hackathons, and more</p>
+        <div className="mb-16 text-center">
+          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
+            Club Events
+          </h2>
+          <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-lg">
+            Join us for immersive workshops, competitions, and guest talks.
+          </p>
         </div>
 
         <Tabs defaultValue="upcoming" className="w-full">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2">
+          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 border rounded-lg bg-muted/30">
             <TabsTrigger value="upcoming">Upcoming Events</TabsTrigger>
             <TabsTrigger value="past">Past Events</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="upcoming" className="mt-6">
-            <div className="space-y-4">
-              {upcomingEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
-              ))}
-            </div>
+          <TabsContent value="upcoming" className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {upcomingEvents.map((event) => (
+              <EventCard key={event.id} event={event} />
+            ))}
           </TabsContent>
 
-          <TabsContent value="past" className="mt-6">
-            <div className="space-y-4">
-              {pastEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
-              ))}
-            </div>
+          <TabsContent value="past" className="mt-0 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {pastEvents.map((event) => (
+              <EventCard key={event.id} event={event} />
+            ))}
           </TabsContent>
         </Tabs>
       </div>

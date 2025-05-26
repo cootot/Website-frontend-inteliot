@@ -14,73 +14,25 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { CalendarDays, MapPin, Clock } from "lucide-react"
+import { useEffect, useState } from "react"
+import api from "@/lib/api"
 
 export default function Events() {
-  const upcomingEvents = [
-    {
-      id: 1,
-      image: "/placeholder.jpg",
-      name: "IoT Workshop Series",
-      date: "June 15, 2024",
-      time: "2:00 PM - 5:00 PM",
-      location: "Engineering Building, Room 302",
-      description:
-        "Hands-on workshop on getting started with Intel IoT Development Kit.",
-    },
-    {
-      id: 2,
-      image: "/placeholder.jpg",
-      name: "Hackathon: Smart Campus Solutions",
-      date: "July 10-12, 2024",
-      time: "48-hour event",
-      location: "Innovation Center",
-      description:
-        "Build innovative IoT solutions to improve campus life and sustainability.",
-    },
-    {
-      id: 3,
-      image: "/placeholder.jpg",
-      name: "Guest Lecture: Future of IoT",
-      date: "August 5, 2024",
-      time: "4:00 PM - 6:00 PM",
-      location: "Main Auditorium",
-      description:
-        "Industry experts from Intel discussing the future trends in IoT technology.",
-    },
-  ]
+  const [events, setEvents] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
 
-  const pastEvents = [
-    {
-      id: 4,
-      image: "/placeholder.jpg",
-      name: "IoT Project Showcase",
-      date: "April 20, 2024",
-      time: "1:00 PM - 4:00 PM",
-      location: "Student Center",
-      description:
-        "Members presented their semester-long IoT projects to the campus community.",
-    },
-    {
-      id: 5,
-      image: "/placeholder.jpg",
-      name: "Workshop: IoT Security Fundamentals",
-      date: "March 15, 2024",
-      time: "3:00 PM - 5:00 PM",
-      location: "Engineering Building, Room 201",
-      description:
-        "Learning about security challenges and best practices in IoT implementations.",
-    },
-    {
-      id: 6,
-      image: "/placeholder.jpg",
-      name: "Intel IoT Roadshow",
-      date: "February 10, 2024",
-      time: "10:00 AM - 4:00 PM",
-      location: "Innovation Center",
-      description:
-        "Intel representatives showcased the latest IoT technologies and development tools.",
-    },
-  ]
+  useEffect(() => {
+    api.get("/events")
+      .then(res => {
+        setEvents(res.data)
+        setLoading(false)
+      })
+      .catch(() => {
+        setError("Failed to load events.")
+        setLoading(false)
+      })
+  }, [])
 
   interface Event {
     image: string
@@ -134,25 +86,17 @@ export default function Events() {
             Join us for immersive workshops, competitions, and guest talks.
           </p>
         </div>
-
-        <Tabs defaultValue="upcoming" className="w-full">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 border rounded-lg bg-muted/30">
-            <TabsTrigger value="upcoming">Upcoming Events</TabsTrigger>
-            <TabsTrigger value="past">Past Events</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="upcoming" className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {upcomingEvents.map((event) => (
+        {loading ? (
+          <div className="text-center">Loading...</div>
+        ) : error ? (
+          <div className="text-center text-red-500">{error}</div>
+        ) : (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {events.map((event) => (
               <EventCard key={event.id} event={event} />
             ))}
-          </TabsContent>
-
-          <TabsContent value="past" className="mt-0 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {pastEvents.map((event) => (
-              <EventCard key={event.id} event={event} />
-            ))}
-          </TabsContent>
-        </Tabs>
+          </div>
+        )}
       </div>
     </section>
   )

@@ -48,33 +48,33 @@ export default function Events({ initialEvents }: { initialEvents: any[] }) {
   }
 
   const EventCard = ({ event }: { event: Event }) => (
-    <Card className="group overflow-hidden border border-border shadow-md transition-all duration-300 hover:shadow-lg hover:shadow-blue-100 hover:-translate-y-0.5 bg-background/80 backdrop-blur-md">
-      <CardHeader className="flex flex-col sm:flex-row gap-4 items-center">
-        <div className="h-40 w-full sm:w-40 flex-shrink-0 overflow-hidden rounded-md bg-muted">
-          <img
-            src={event.image}
-            alt={event.name + " poster"}
-            className="object-cover h-full w-full"
-          />
-        </div>
-        <div className="w-full">
-          <CardTitle className="text-lg font-semibold mb-1">{event.name}</CardTitle>
-          <CardDescription className="flex items-center gap-2 text-sm text-muted-foreground">
-            <CalendarDays className="h-4 w-4" /> {event.date}
+    <Card className="group flex flex-col sm:flex-row overflow-hidden border border-border shadow-md transition-all duration-300 hover:shadow-lg hover:shadow-blue-100 hover:-translate-y-0.5 bg-background/80 backdrop-blur-md">
+      <div className="h-96 w-full sm:w-[28rem] flex-shrink-0 overflow-hidden flex items-center justify-center p-6">
+        <img
+          src={event.image}
+          alt={event.name + ' poster'}
+          className="object-contain h-full w-full max-w-full max-h-full"
+        />
+      </div>
+      <div className="flex flex-col justify-between w-full">
+        <CardHeader className="flex flex-col gap-2 items-start p-6 pb-2">
+          <CardTitle className="text-xl font-semibold mb-1">{event.name}</CardTitle>
+          <CardDescription className="flex items-center gap-2 text-base text-muted-foreground">
+            <CalendarDays className="h-5 w-5" /> {event.date}
           </CardDescription>
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-2 text-sm">
-        <div className="flex items-center text-muted-foreground">
-          <Clock className="mr-2 h-4 w-4" />
-          {event.time}
-        </div>
-        <div className="flex items-center text-muted-foreground">
-          <MapPin className="mr-2 h-4 w-4" />
-          {event.location}
-        </div>
-        <p className="text-foreground mt-2">{event.description}</p>
-      </CardContent>
+        </CardHeader>
+        <CardContent className="space-y-3 text-base p-6 pt-0">
+          <div className="flex items-center text-muted-foreground">
+            <Clock className="mr-2 h-5 w-5" />
+            {event.time}
+          </div>
+          <div className="flex items-center text-muted-foreground">
+            <MapPin className="mr-2 h-5 w-5" />
+            {event.location}
+          </div>
+          <p className="text-foreground mt-2">{event.description}</p>
+        </CardContent>
+      </div>
     </Card>
   )
 
@@ -94,7 +94,7 @@ export default function Events({ initialEvents }: { initialEvents: any[] }) {
         ) : error ? (
           <div className="text-center text-red-500">{error}</div>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="flex flex-col gap-6">
             {events.map((event) => (
               <EventCard key={event.id} event={event} />
             ))}

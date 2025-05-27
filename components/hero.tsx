@@ -1,16 +1,86 @@
+"use client"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { CircuitBoard } from "lucide-react"
 import Hero3D from "@/components/hero-3d"
+import { useEffect, useState, useRef } from "react"
+
+function BlueDotsAnimation() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
+    const dpr = window.devicePixelRatio || 1
+    const width = window.innerWidth
+    // Center the animation vertically in the hero section
+    const heroHeight = window.innerHeight * 0.6 // 60% of viewport height
+    const height = heroHeight
+    canvas.width = width * dpr
+    canvas.height = height * dpr
+    canvas.style.width = width + "px"
+    canvas.style.height = height + "px"
+    ctx.scale(dpr, dpr)
+    // Generate random dots
+    const dots = Array.from({ length: 18 }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      r: 6 + Math.random() * 8,
+      dx: (Math.random() - 0.5) * 1.2,
+      dy: (Math.random() - 0.5) * 1.2,
+      opacity: 0.5 + Math.random() * 0.5,
+    }))
+    let running = true
+    function animate() {
+      if (!running || !ctx) return
+      ctx.clearRect(0, 0, width, height)
+      for (const dot of dots) {
+        dot.x += dot.dx
+        dot.y += dot.dy
+        if (dot.x < 0 || dot.x > width) dot.dx *= -1
+        if (dot.y < 0 || dot.y > height) dot.dy *= -1
+        ctx.beginPath()
+        ctx.arc(dot.x, dot.y, dot.r, 0, 2 * Math.PI)
+        ctx.fillStyle = `rgba(0, 150, 255, ${dot.opacity})`
+        ctx.shadowColor = "#00b2ff"
+        ctx.shadowBlur = 12
+        ctx.fill()
+        ctx.shadowBlur = 0
+      }
+      requestAnimationFrame(animate)
+    }
+    animate()
+    return () => { running = false }
+  }, [])
+  // Vertically center the canvas using flex
+  return (
+    <div className="absolute inset-0 z-0 flex items-center justify-center" style={{height: '100%'}}>
+      <canvas ref={canvasRef} style={{ width: "100%", height: "60vh", display: "block", maxHeight: 400 }} />
+    </div>
+  )
+}
 
 export default function Hero() {
+  const [show3D, setShow3D] = useState(true)
+
+  useEffect(() => {
+    // Disable 3D animation for small screens (e.g., width < 640px)
+    const checkScreen = () => {
+      setShow3D(window.innerWidth >= 640)
+    }
+    checkScreen()
+    window.addEventListener("resize", checkScreen)
+    return () => window.removeEventListener("resize", checkScreen)
+  }, [])
+
   return (
     <section
       id="home"
       className="relative overflow-hidden bg-background py-20 md:py-32 mb-0 pb-0"
     >
 
-      <Hero3D />
+      {show3D ? <Hero3D /> : <BlueDotsAnimation />}
       <div className="container relative z-10 flex flex-col items-center justify-center text-center">
         <div className="mb-6 inline-flex items-center justify-center rounded-full bg-primary/10 px-3 py-1 text-sm text-primary">
 

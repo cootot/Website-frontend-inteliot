@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { CircuitBoard } from "lucide-react"
 import Hero3D from "@/components/hero-3d"
 import { useEffect, useState, useRef } from "react"
+import { useTheme } from "next-themes"
 
 function BlueDotsAnimation() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
@@ -75,6 +76,7 @@ function BlueDotsAnimation() {
 
 export default function Hero() {
   const [show3D, setShow3D] = useState(true)
+  const { resolvedTheme } = useTheme()
 
   useEffect(() => {
     // Disable 3D animation for small screens (e.g., width < 640px)
@@ -99,11 +101,17 @@ export default function Hero() {
           <img src="/logo.png" alt="IoT Club Logo" className="h-16 w-60" />
         </div>
 
-        <h1 className="mb-48 max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl" style={{ textShadow: '0 0 4px #000, 0 0 4px #000, 0 0 4px #000' }}>
+        <h1
+          className="mb-48 max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl"
+          style={resolvedTheme === "dark" ? { textShadow: '0 0 4px #000, 0 0 4px #000, 0 0 4px #000' } : {}}
+        >
           Empowering Innovation through Intel IoT
         </h1>
 
-        <p className="mb-10 max-w-2xl text-lg text-muted-foreground md:text-xl" style={{ textShadow: '0 0 2px #000, 0 0 2px #000, 0 0 2px #000' }}>
+        <p
+          className="mb-10 max-w-2xl text-lg text-muted-foreground md:text-xl"
+          style={resolvedTheme === "dark" ? { textShadow: '0 0 2px #000, 0 0 2px #000, 0 0 2px #000' } : {}}
+        >
           Exploring the intersection of hardware, software, and connectivity
         </p>
 

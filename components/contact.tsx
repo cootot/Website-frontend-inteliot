@@ -20,6 +20,13 @@ import {
   Phone,
 } from "lucide-react"
 import Link from "next/link"
+import emailjs from "emailjs-com"
+import { toast } from "sonner"
+
+// EmailJS environment variables
+const EMAILJS_SERVICE_ID = "service_bg55nmd"
+const EMAILJS_TEMPLATE_ID = "template_dl7if3n"
+const EMAILJS_PUBLIC_KEY = "q0OlBKnc-NmZqukqE"
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -38,9 +45,27 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log("Form submitted:", formData)
-    setFormData({ name: "", email: "", subject: "", message: "" })
-    alert("Message sent successfully!")
+
+    emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      {
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        time: new Date().toLocaleString()
+      },
+      EMAILJS_PUBLIC_KEY
+    )
+      .then(() => {
+        toast("✅ Message sent successfully! Will try to reach to you shortly!")
+        setFormData({ name: "", email: "", subject: "", message: "" })
+      })
+      .catch((error) => {
+        console.error("EmailJS Error:", error)
+        toast("❌ Something went wrong. Please try again later.")
+      })
   }
 
   return (

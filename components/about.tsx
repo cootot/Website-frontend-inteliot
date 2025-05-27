@@ -46,10 +46,10 @@ export default function About() {
   ]
 
   const stats = [
-    { label: "Active Members", value: "300+" },
-    { label: "Workshops Conducted", value: "45+" },
-    { label: "Projects Built", value: "120+" },
-    { label: "Industry Partners", value: "10+" },
+    { label: "Active Members", value: "100+" },
+    { label: "Workshops Conducted", value: "15+" },
+    { label: "Projects Built", value: "30+" },
+    { label: "Industry Partners", value: "5+" },
   ]
 
   return (

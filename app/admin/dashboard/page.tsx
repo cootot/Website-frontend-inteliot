@@ -67,6 +67,7 @@ export default function AdminDashboard() {
   const [teamForm, setTeamForm] = useState({
     name: "",
     role: "",
+    roleCustom: "",
     bio: "",
     image: "",
     github: "",
@@ -127,6 +128,7 @@ export default function AdminDashboard() {
     setTeamForm({
       name: member.name || "",
       role: member.role || "",
+      roleCustom: "",
       bio: member.bio || "",
       image: member.image || "",
       github: member.github || "",
@@ -175,8 +177,17 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleTeamChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setTeamForm({ ...teamForm, [e.target.name]: e.target.value });
+  const handleTeamChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    if (name === "role" && value !== "custom") {
+      setTeamForm({ ...teamForm, role: value, roleCustom: "" });
+    } else if (name === "role" && value === "custom") {
+      setTeamForm({ ...teamForm, role: value });
+    } else if (name === "roleCustom") {
+      setTeamForm({ ...teamForm, roleCustom: value });
+    } else {
+      setTeamForm({ ...teamForm, [name]: value });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -218,16 +229,22 @@ export default function AdminDashboard() {
   const handleTeamSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      const submitData = {
+        ...teamForm,
+        role: teamForm.role === "custom" ? teamForm.roleCustom : teamForm.role,
+      };
+      // Remove roleCustom from submitData
+      const { roleCustom, ...finalData } = submitData;
       if (editingMember) {
-        await api.put(`/members/${editingMember._id}`, teamForm);
+        await api.put(`/members/${editingMember._id}`, finalData);
         setEditingMember(null);
         toast({ title: "Member updated successfully!" });
       } else {
-        await api.post("/members", teamForm);
+        await api.post("/members", finalData);
         toast({ title: "Member added successfully!" });
       }
       await fetchMembers();
-      setTeamForm({ name: "", role: "", bio: "", image: "", github: "", linkedin: "", email: "" });
+      setTeamForm({ name: "", role: "", roleCustom: "", bio: "", image: "", github: "", linkedin: "", email: "" });
     } catch (err: any) {
       alert(err?.response?.data?.message || "Failed to submit team member");
     }
@@ -494,15 +511,41 @@ export default function AdminDashboard() {
               </div>
               <div>
                 <label className="block mb-1 font-medium" htmlFor="teamRole">Role</label>
-                <input
-                  type="text"
-                  id="teamRole"
-                  name="role"
-                  value={teamForm.role}
-                  onChange={handleTeamChange}
-                  className="w-full px-3 py-2 border rounded-md bg-background text-foreground"
-                  required
-                />
+                <div className="relative">
+                  <select
+                    id="teamRole"
+                    name="role"
+                    value={teamForm.role}
+                    onChange={handleTeamChange}
+                    className="w-full px-3 py-2 border rounded-md bg-background text-foreground"
+                    required
+                  >
+                    <option value="">Select a role</option>
+                    <option value="president">President</option>
+                    <option value="co-head">Co-Head</option>
+                    <option value="iot">IoT</option>
+                    <option value="aiot">AIoT</option>
+                    <option value="iort">IORT</option>
+                    <option value="project-lead">Project Lead</option>
+                    <option value="core team">Core Team</option>
+                    <option value="trainee">Trainee</option>
+                    <option value="web/app dev">Web/App Dev</option>
+                    <option value="marketing">Marketing</option>
+                    <option value="custom">Custom...</option>
+                  </select>
+                  {teamForm.role === "custom" && (
+                    <input
+                      type="text"
+                      name="roleCustom"
+                      placeholder="Enter custom role"
+                      value={teamForm.roleCustom}
+                      onChange={handleTeamChange}
+                      className="mt-2 w-full px-3 py-2 border rounded-md bg-background text-foreground"
+                      autoFocus
+                      required
+                    />
+                  )}
+                </div>
               </div>
               <div>
                 <label className="block mb-1 font-medium" htmlFor="teamBio">Bio</label>

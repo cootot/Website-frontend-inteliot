@@ -14,23 +14,32 @@ function BlueDotsAnimation() {
     if (!ctx) return
     const dpr = window.devicePixelRatio || 1
     const width = window.innerWidth
-    // Center the animation vertically in the hero section
-    const heroHeight = window.innerHeight * 0.6 // 60% of viewport height
+    const heroHeight = window.innerHeight * 0.6
     const height = heroHeight
     canvas.width = width * dpr
     canvas.height = height * dpr
     canvas.style.width = width + "px"
     canvas.style.height = height + "px"
+    ctx.setTransform(1, 0, 0, 1, 0, 0) // Reset transform
     ctx.scale(dpr, dpr)
-    // Generate random dots
-    const dots = Array.from({ length: 18 }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      r: 6 + Math.random() * 8,
-      dx: (Math.random() - 0.5) * 1.2,
-      dy: (Math.random() - 0.5) * 1.2,
-      opacity: 0.5 + Math.random() * 0.5,
-    }))
+    // Only blue and grey colors
+    const colors = [
+      { fill: "rgba(0, 150, 255, OP)", shadow: "#00b2ff" }, // blue
+      { fill: "rgba(200, 200, 200, OP)", shadow: "#aaa" },   // grey
+    ]
+    // Reduce number of balls
+    const dots = Array.from({ length: 10 }, () => {
+      const color = colors[Math.floor(Math.random() * colors.length)]
+      return {
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: 10 + Math.random() * 10,
+        dx: (Math.random() - 0.5) * 1.2,
+        dy: (Math.random() - 0.5) * 1.2,
+        opacity: 0.5 + Math.random() * 0.5,
+        color,
+      }
+    })
     let running = true
     function animate() {
       if (!running || !ctx) return
@@ -38,13 +47,13 @@ function BlueDotsAnimation() {
       for (const dot of dots) {
         dot.x += dot.dx
         dot.y += dot.dy
-        if (dot.x < 0 || dot.x > width) dot.dx *= -1
-        if (dot.y < 0 || dot.y > height) dot.dy *= -1
+        if (dot.x < dot.r || dot.x > width - dot.r) dot.dx *= -1
+        if (dot.y < dot.r || dot.y > height - dot.r) dot.dy *= -1
         ctx.beginPath()
         ctx.arc(dot.x, dot.y, dot.r, 0, 2 * Math.PI)
-        ctx.fillStyle = `rgba(0, 150, 255, ${dot.opacity})`
-        ctx.shadowColor = "#00b2ff"
-        ctx.shadowBlur = 12
+        ctx.fillStyle = dot.color.fill.replace("OP", dot.opacity.toFixed(2))
+        ctx.shadowColor = dot.color.shadow
+        ctx.shadowBlur = 16
         ctx.fill()
         ctx.shadowBlur = 0
       }
@@ -87,11 +96,11 @@ export default function Hero() {
           <img src="/logo.png" alt="IoT Club Logo" className="h-16 w-60" />
         </div>
 
-        <h1 className="mb-48 max-w-4xl text-4xl  font-bold tracking-tight sm:text-5xl md:text-6xl">
+        <h1 className="mb-48 max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl" style={{ textShadow: '0 0 4px #000, 0 0 4px #000, 0 0 4px #000' }}>
           Empowering Innovation through Intel IoT
         </h1>
 
-        <p className="mb-10 max-w-2xl text-lg text-muted-foreground md:text-xl">
+        <p className="mb-10 max-w-2xl text-lg text-muted-foreground md:text-xl" style={{ textShadow: '0 0 2px #000, 0 0 2px #000, 0 0 2px #000' }}>
           Exploring the intersection of hardware, software, and connectivity
         </p>
 

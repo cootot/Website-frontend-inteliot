@@ -118,7 +118,7 @@ export default function Hero() {
         <div className="flex flex-col gap-4 sm:flex-row">
           <Button
             size="lg"
-            className="group relative overflow-hidden rounded-full bg-primary px-6 py-2 text-white transition-all duration-300 ease-out hover:bg-primary/90 hover:pl-9 hover:opacity-100"
+            className="group relative overflow-hidden rounded-full bg-primary px-6 py-2  transition-all duration-300 ease-out hover:bg-primary/90 hover:pl-9 hover:opacity-100"
             asChild
           >
             <Link href="/contact">
@@ -135,7 +135,7 @@ export default function Hero() {
           </Button>
            <Button
             size="lg"
-            className="group relative overflow-hidden rounded-full bg-primary px-6 py-2 text-white transition-all duration-300 ease-out hover:bg-primary/90 hover:pr-9 hover:opacity-100"
+            className="group relative overflow-hidden rounded-full bg-primary px-6 py-2  transition-all duration-300 ease-out hover:bg-primary/90 hover:pr-9 hover:opacity-100"
             asChild
           >
             <Link href="/hackathon">

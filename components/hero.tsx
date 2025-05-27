@@ -27,13 +27,16 @@ function BlueDotsAnimation() {
       { fill: "rgba(0, 150, 255, OP)", shadow: "#00b2ff" }, // blue
       { fill: "rgba(200, 200, 200, OP)", shadow: "#aaa" },   // grey
     ]
-    // Reduce number of balls
+    // Make circles smaller on mobile screens
+    const isMobile = width < 640
+    const minR = isMobile ? 6 : 10
+    const maxR = isMobile ? 14 : 20
     const dots = Array.from({ length: 10 }, () => {
       const color = colors[Math.floor(Math.random() * colors.length)]
       return {
         x: Math.random() * width,
         y: Math.random() * height,
-        r: 10 + Math.random() * 10,
+        r: minR + Math.random() * (maxR - minR),
         dx: (Math.random() - 0.5) * 1.2,
         dy: (Math.random() - 0.5) * 1.2,
         opacity: 0.5 + Math.random() * 0.5,

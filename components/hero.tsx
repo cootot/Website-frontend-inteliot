@@ -133,6 +133,15 @@ export default function Hero() {
           >
             <Link href="/projects">Explore Projects</Link>
           </Button>
+           <Button
+            size="lg"
+            className="group relative overflow-hidden rounded-full bg-primary px-6 py-2 transition-all duration-300 ease-out hover:bg-primary/90 hover:pr-9"
+            asChild
+          >
+            <Link href="/hackathon">
+              Hackathon
+            </Link>
+          </Button>
 
         </div>
       </div>

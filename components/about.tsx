@@ -102,9 +102,9 @@ export default function About() {
           <Accordion type="single" collapsible className="w-full">
             {goals.map((goal) => (
               <AccordionItem key={goal.id} value={goal.id}>
-                <AccordionTrigger className="flex items-center gap-3">
-                  {goal.icon}
-                  {goal.title}
+                <AccordionTrigger className="flex items-center gap-3 [&>svg:first-child]:rotate-0 [&>svg:first-child]:transition-none">
+                  <span className="flex items-center">{goal.icon}</span>
+                  <span>{goal.title}</span>
                 </AccordionTrigger>
                 <AccordionContent>
                   <p className="text-muted-foreground">{goal.content}</p>

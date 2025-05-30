@@ -94,7 +94,6 @@ export default function Timeline() {
             const ref = useRef(null);
             const controls = useInViewAnimation(ref);
 
-            // Adjust animation initial x for slide effect from left/right
             const initialX = isEven ? -50 : 50;
 
             return (
@@ -103,7 +102,6 @@ export default function Timeline() {
                 ref={ref}
                 className="relative flex flex-col md:flex-row items-center md:items-start min-h-[300px]"
               >
-                {/* Left content */}
                 <div className="w-full md:w-1/2 px-6 flex justify-center md:justify-end relative">
                   {!isEven ? (
                     <motion.div
@@ -115,7 +113,6 @@ export default function Timeline() {
                         hidden: { x: initialX, opacity: 0 },
                       }}
                     >
-                      {/* Horizontal line */}
                       <div className="hidden md:block absolute top-5 right-[-2.5rem] h-[3px] w-[calc(100%+2.5rem)] bg-blue-400 rounded" />
                       <div className="pt-6">
                         <h3 className="text-xl font-bold">{event.title}</h3>
@@ -144,14 +141,12 @@ export default function Timeline() {
                   )}
                 </div>
 
-                {/* Center number circle */}
                 <div className="absolute left-1/2 transform -translate-x-1/2 z-10 top-0">
                   <div className="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-lg font-semibold shadow-md">
                     {idx + 1}
                   </div>
                 </div>
 
-                {/* Right content */}
                 <div className="w-full md:w-1/2 px-6 flex justify-center md:justify-start relative">
                   {isEven ? (
                     <motion.div
@@ -163,7 +158,6 @@ export default function Timeline() {
                         hidden: { x: initialX, opacity: 0 },
                       }}
                     >
-                      {/* Horizontal line */}
                       <div className="hidden md:block absolute top-5 left-[-2.5rem] h-[3px] w-[calc(100%+2.5rem)] bg-blue-400 rounded" />
                       <div className="pt-6">
                         <h3 className="text-xl font-bold">{event.title}</h3>

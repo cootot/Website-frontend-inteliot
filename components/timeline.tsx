@@ -3,6 +3,7 @@
 import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, useAnimation } from 'framer-motion';
+
 const timelineData = [
   {
     title: 'Openvino Training Session',
@@ -148,9 +149,7 @@ const timelineData = [
     image: '/timeline/event_18.png',
     firstEventOfBatch: false,
   },
-];
-
-
+]
 
 function useInViewAnimation(ref) {
   const controls = useAnimation();
@@ -218,7 +217,9 @@ export default function Timeline() {
                 {/* MOBILE VIEW */}
                 <div className="block md:hidden pt-24 px-2">
                   <motion.div
-                    className={`flex ${isEven ? 'flex-row' : 'flex-row-reverse'} items-start gap-3 w-full`}
+                    className={`flex flex-row items-start gap-3 w-full ${
+                      idx % 2 === 1 ? 'flex-row-reverse' : ''
+                    }`}
                     initial={{ opacity: 0 }}
                     animate={controls}
                     variants={{
@@ -226,7 +227,7 @@ export default function Timeline() {
                       hidden: { opacity: 0 },
                     }}
                   >
-                    <div className="w-5/12">
+                    <div className="w-1/2">
                       <Image
                         src={event.image}
                         alt={event.title}
@@ -235,21 +236,19 @@ export default function Timeline() {
                         className="rounded-md shadow-md w-full h-auto"
                       />
                     </div>
-
-                    <div className={`w-7/12 relative pt-4 px-2`}>
-                      {/* Horizontal line connected to center */}
+                    <div className="w-1/2 relative pt-4 px-2">
+                      {/* Blue line with end circle */}
+                     <div className="absolute top-0 left-0 w-full h-1 bg-blue-500 rounded mb-2">
                       <div
-                        className={`absolute top-0 left-[-1.25rem] w-[calc(100%+1.25rem)] h-1 bg-blue-500 rounded`}
-                      >
-                        <div
-                          className={`absolute ${isEven ? 'right-' : 'left-0'} top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full bg-white border-2 border-blue-500`}
-                        />
-                      </div>
-
+                        className={`absolute top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full bg-white border-2 border-blue-500 ${
+                          idx % 2 === 1 ? 'left-0' : 'right-0'
+                        }`}
+                      />
+                    </div>
                       <div className="pt-2">
-                        <h3 className="text-xs font-bold">{event.title}</h3>
-                        <p className="text-blue-600 font-medium text-[10px]">{event.date}</p>
-                        <p className="mt-1 text-gray-700 dark:text-gray-100 text-[11px] whitespace-pre-line">
+                        <h3 className="text-sm font-bold">{event.title}</h3>
+                        <p className="text-blue-600 font-medium text-xs">{event.date}</p>
+                        <p className="mt-1 text-gray-700 text-xs whitespace-pre-line">
                           {event.description}
                         </p>
                       </div>
@@ -257,91 +256,91 @@ export default function Timeline() {
                   </motion.div>
                 </div>
 
-                  {/* DESKTOP VIEW */}
-                  <div className="hidden md:flex relative flex-col md:flex-row items-center md:items-start min-h-[300px]">
-                    <div className="w-full md:w-1/2 px-6 flex justify-center md:justify-end relative">
-                      {!isEven ? (
-                        <motion.div
-                          className="relative text-right md:pr-12 max-w-md pt-10"
-                          initial={{ x: -50, opacity: 0 }}
-                          animate={controls}
-                          variants={{
-                            visible: { x: 0, opacity: 1, transition: { duration: 0.8 } },
-                            hidden: { x: -50, opacity: 0 },
-                          }}
-                        >
-                          <div className="hidden md:block absolute top-5 right-[-2.5rem] h-[3px] w-[calc(100%+2.5rem)] bg-blue-400 rounded">
-                            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full bg-white border-2 border-blue-500" />
-                          </div>
-                          <div className="pt-6">
-                            <h3 className="text-xl font-bold">{event.title}</h3>
-                            <p className="text-blue-600 font-semibold">{event.date}</p>
-                            <p className="mt-2 text-gray-700 dark:text-gray-100 whitespace-pre-line">{event.description}</p>
-                          </div>
-                        </motion.div>
-                      ) : (
-                        <motion.div
-                          initial={{ x: 0, opacity: 0 }}
-                          animate={controls}
-                          variants={{
-                            visible: { x: 0, opacity: 1, transition: { duration: 0.8 } },
-                            hidden: { x: 0, opacity: 0 },
-                          }}
-                          className="pt-10"
-                        >
-                          <Image
-                            src={event.image}
-                            alt={event.title}
-                            width={400}
-                            height={250}
-                            className="rounded-md shadow-md"
-                          />
-                        </motion.div>
-                      )}
-                    </div>
+                {/* DESKTOP VIEW */}
+                <div className="hidden md:flex relative flex-col md:flex-row items-center md:items-start min-h-[300px]">
+                  <div className="w-full md:w-1/2 px-6 flex justify-center md:justify-end relative">
+                    {!isEven ? (
+                      <motion.div
+                        className="relative text-right md:pr-12 max-w-md pt-10"
+                        initial={{ x: -50, opacity: 0 }}
+                        animate={controls}
+                        variants={{
+                          visible: { x: 0, opacity: 1, transition: { duration: 0.8 } },
+                          hidden: { x: -50, opacity: 0 },
+                        }}
+                      >
+                        <div className="hidden md:block absolute top-5 right-[-2.5rem] h-[3px] w-[calc(100%+2.5rem)] bg-blue-400 rounded">
+                          <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full bg-white border-2 border-blue-500" />
+                        </div>
+                        <div className="pt-6">
+                          <h3 className="text-xl font-bold">{event.title}</h3>
+                          <p className="text-blue-600 font-semibold">{event.date}</p>
+                          <p className="mt-2 text-gray-700 whitespace-pre-line">{event.description}</p>
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        initial={{ x: 0, opacity: 0 }}
+                        animate={controls}
+                        variants={{
+                          visible: { x: 0, opacity: 1, transition: { duration: 0.8 } },
+                          hidden: { x: 0, opacity: 0 },
+                        }}
+                        className="pt-10"
+                      >
+                        <Image
+                          src={event.image}
+                          alt={event.title}
+                          width={400}
+                          height={250}
+                          className="rounded-md shadow-md"
+                        />
+                      </motion.div>
+                    )}
+                  </div>
 
-                    <div className="w-full md:w-1/2 px-6 flex justify-center md:justify-start relative">
-                      {isEven ? (
-                        <motion.div
-                          className="relative text-left md:pl-12 max-w-md pt-10"
-                          initial={{ x: 50, opacity: 0 }}
-                          animate={controls}
-                          variants={{
-                            visible: { x: 0, opacity: 1, transition: { duration: 0.8 } },
-                            hidden: { x: 50, opacity: 0 },
-                          }}
-                        >
-                          <div className="hidden md:block absolute top-5 left-[-2.5rem] h-[3px] w-[calc(100%+2.5rem)] bg-blue-400 rounded">
-                            <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full bg-white border-2 border-blue-500" />
-                          </div>
-                          <div className="pt-6">
-                            <h3 className="text-xl font-bold">{event.title}</h3>
-                            <p className="text-blue-600 font-semibold">{event.date}</p>
-                            <p className="mt-2 text-gray-700 whitespace-pre-line">{event.description}</p>
-                          </div>
-                        </motion.div>
-                      ) : (
-                        <motion.div
-                          initial={{ x: 0, opacity: 0 }}
-                          animate={controls}
-                          variants={{
-                            visible: { x: 0, opacity: 1, transition: { duration: 0.8 } },
-                            hidden: { x: 0, opacity: 0 },
-                          }}
-                          className="pt-10"
-                        >
-                          <Image
-                            src={event.image}
-                            alt={event.title}
-                            width={400}
-                            height={250}
-                            className="rounded-md shadow-md"
-                          />
-                        </motion.div>
-                      )}
-                    </div>
+                  <div className="w-full md:w-1/2 px-6 flex justify-center md:justify-start relative">
+                    {isEven ? (
+                      <motion.div
+                        className="relative text-left md:pl-12 max-w-md pt-10"
+                        initial={{ x: 50, opacity: 0 }}
+                        animate={controls}
+                        variants={{
+                          visible: { x: 0, opacity: 1, transition: { duration: 0.8 } },
+                          hidden: { x: 50, opacity: 0 },
+                        }}
+                      >
+                        <div className="hidden md:block absolute top-5 left-[-2.5rem] h-[3px] w-[calc(100%+2.5rem)] bg-blue-400 rounded">
+                          <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full bg-white border-2 border-blue-500" />
+                        </div>
+                        <div className="pt-6">
+                          <h3 className="text-xl font-bold">{event.title}</h3>
+                          <p className="text-blue-600 font-semibold">{event.date}</p>
+                          <p className="mt-2 text-gray-700 whitespace-pre-line">{event.description}</p>
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        initial={{ x: 0, opacity: 0 }}
+                        animate={controls}
+                        variants={{
+                          visible: { x: 0, opacity: 1, transition: { duration: 0.8 } },
+                          hidden: { x: 0, opacity: 0 },
+                        }}
+                        className="pt-10"
+                      >
+                        <Image
+                          src={event.image}
+                          alt={event.title}
+                          width={400}
+                          height={250}
+                          className="rounded-md shadow-md"
+                        />
+                      </motion.div>
+                    )}
                   </div>
                 </div>
+              </div>
             );
           })}
         </div>

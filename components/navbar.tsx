@@ -19,7 +19,6 @@ export default function Navbar() {
     { name: "Contact", href: "/contact" },
     { name: "Hackathon", href: "/hackathon" },
     { name: "Timeline", href: "/timeline" },
-    { name: "Admin", href: "/admin" },
 
   ]
 

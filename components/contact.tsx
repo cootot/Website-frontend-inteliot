@@ -93,8 +93,8 @@ export default function Contact() {
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-primary" />
-                <Link href="mailto:inteliotclub@gmail.com" className="hover:underline">
-                  inteliotclub@gmail.com
+                <Link href="mailto:inteliotclub@cb.amrita.edu" className="hover:underline">
+                  inteliotclub@cb.amrita.edu
                 </Link>
               </div>
 

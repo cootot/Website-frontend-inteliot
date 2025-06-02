@@ -74,13 +74,20 @@ export default function About() {
         <div className="grid gap-8 md:grid-cols-2 mb-16">
           <Card className="shadow-md">
             <CardHeader>
-              <CardTitle>Our Mission</CardTitle>
+              <CardTitle>Our History</CardTitle>
               <CardDescription>What drives us</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
-                Empower students with the knowledge and tools to innovate using Intel’s cutting-edge IoT technologies. Our workshops, hackathons, and mentorship programs equip students to create impactful solutions.
-              </p>
+                <p className="text-muted-foreground">
+                The Intel IoT Club at Amrita Vishwa Vidyapeetham is a hub for students passionate about the Internet of Things (IoT) and Artificial Intelligence (AI).<br />
+                It's an AI/ML and IoT-based club started way back in Feb 2022 by Deepak Sai Pendyala, who was an Ex-applied scientist intern at Amazon and also a Pi and AI Ambassador.
+                <br /><br />
+                He started this club to identify and support students who are passionate about working with developer communities. We believe that innovation is at the forefront of academia and forming effective and creative solutions for real-world problems lies in collaboration and knowledge-sharing through an interdisciplinary approach.
+                <br /><br />
+                We have different wings under our club like AIoT, IoRT, IoT and Technical Support. We also have Dr. Anbazhagan Mahadevan and Dr. Anantha Narayanan V, who constantly support us and provide us with necessary assistance in conducting various events.
+                <br /><br />
+                That's why we're offering a variety of Events, workshops, industrial training and resources that enable students to deepen their skills and get familiarised with the latest hardware and software solutions provided by Intel.
+                </p>
             </CardContent>
           </Card>
 
@@ -91,8 +98,11 @@ export default function About() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                To become the premier student-led IoT innovation hub in the region, shaping the future of connected technology through collaboration, creativity, and community.
-              </p>
+Our IoT track in particular is designed to provide students with hands-on experience and help them to develop impactful projects. Small examples of impactful sessions conducted by the Intel IoT club include the Wokwi Simulator Webinar, building an entire game server with RasPi, IoT competitions using Raspberry Pi, building a smart home with Raspberry Pi, Intel oneAPI workshop etc.
+<br /><br />
+We not only have hands-on sessions but also various quizzes to promote competitive spirit and collaborative learning. We've conducted major events like the Intel AI Hackathon, as a part of Anokha 2024 in Partnership with Intel Corporation.
+<br /><br />
+We are also conducting a project development and research initiative named “Partner in Project 101”. This event allows for brainstorming innovative ideas to be heard and perfected by members of the Intel IoT Club. You'll also learn to develop solutions that can solve real-life issues. Whether it's your semester projects or a personal project - we will always have your back. And if it can make the best out of other projects - you will also get to present it in Amrita Coimbatore Campus' Tech Fest: Anokha.              </p>
             </CardContent>
           </Card>
         </div>

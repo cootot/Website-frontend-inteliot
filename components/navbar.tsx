@@ -19,6 +19,8 @@ export default function Navbar() {
     { name: "Contact", href: "/contact" },
     { name: "Hackathon", href: "/hackathon" },
     { name: "Timeline", href: "/timeline" },
+    { name: "Brochure", href: "/brochure.pdf", target: "_blank" },
+    { name: "Socials", href: "https://linktr.ee/inteliotclub", target: "_blank" },
 
   ]
 

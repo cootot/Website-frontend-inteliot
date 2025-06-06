@@ -24,13 +24,30 @@ interface ProjectType {
 interface MemberType {
   _id: string;
   name: string;
-  role: string;
+  role: string[];
   bio: string;
   image: string;
   github: string;
   linkedin: string;
   email: string;
 }
+
+const ROLE_OPTIONS = [
+  { value: "faculty coordinator", label: "Faculty coordinator" },
+  { value: "student mentor", label: "Student Mentor" },
+  { value: "president", label: "President" },
+  { value: "co head", label: "Co head" },
+  { value: "iot", label: "Iot" },
+  { value: "aiot", label: "Aiot" },
+  { value: "iort", label: "Iort" },
+  { value: "iiot", label: "Iiot" },
+  { value: "team lead", label: "Team lead" },
+  { value: "project lead", label: "Project lead" },
+  { value: "core member", label: "Core member" },
+  { value: "trainee", label: "Trainee" },
+  { value: "web/app dev", label: "Web/App Dev" },
+  { value: "marketing team", label: "Marketing team" },
+];
 
 export default function AdminDashboard() {
   const [selected, setSelected] = useState<"event" | "project" | "team">("event");
@@ -64,9 +81,18 @@ export default function AdminDashboard() {
     demo: "",
   });
 
-  const [teamForm, setTeamForm] = useState({
+  const [teamForm, setTeamForm] = useState<{
+    name: string;
+    roles: string[];
+    roleCustom: string;
+    bio: string;
+    image: string;
+    github: string;
+    linkedin: string;
+    email: string;
+  }>({
     name: "",
-    role: "",
+    roles: [],
     roleCustom: "",
     bio: "",
     image: "",
@@ -127,7 +153,7 @@ export default function AdminDashboard() {
     setEditingMember(member);
     setTeamForm({
       name: member.name || "",
-      role: member.role || "",
+      roles: Array.isArray(member.role) ? member.role : member.role ? [member.role] : [],
       roleCustom: "",
       bio: member.bio || "",
       image: member.image || "",
@@ -179,10 +205,15 @@ export default function AdminDashboard() {
 
   const handleTeamChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    if (name === "role" && value !== "custom") {
-      setTeamForm({ ...teamForm, role: value, roleCustom: "" });
-    } else if (name === "role" && value === "custom") {
-      setTeamForm({ ...teamForm, role: value });
+    if (name === "roles" && e.target instanceof HTMLInputElement) {
+      const checked = e.target.checked;
+      setTeamForm((prev) => {
+        if (checked) {
+          return { ...prev, roles: [...prev.roles, value] };
+        } else {
+          return { ...prev, roles: prev.roles.filter((r: string) => r !== value) };
+        }
+      });
     } else if (name === "roleCustom") {
       setTeamForm({ ...teamForm, roleCustom: value });
     } else {
@@ -231,10 +262,9 @@ export default function AdminDashboard() {
     try {
       const submitData = {
         ...teamForm,
-        role: teamForm.role === "custom" ? teamForm.roleCustom : teamForm.role,
+        role: teamForm.roleCustom ? [...teamForm.roles, teamForm.roleCustom] : teamForm.roles,
       };
-      // Remove roleCustom from submitData
-      const { roleCustom, ...finalData } = submitData;
+      const { roleCustom, roles, ...finalData } = submitData;
       if (editingMember) {
         await api.put(`/members/${editingMember._id}`, finalData);
         setEditingMember(null);
@@ -244,7 +274,7 @@ export default function AdminDashboard() {
         toast({ title: "Member added successfully!" });
       }
       await fetchMembers();
-      setTeamForm({ name: "", role: "", roleCustom: "", bio: "", image: "", github: "", linkedin: "", email: "" });
+      setTeamForm({ name: "", roles: [], roleCustom: "", bio: "", image: "", github: "", linkedin: "", email: "" });
     } catch (err: any) {
       alert(err?.response?.data?.message || "Failed to submit team member");
     }
@@ -510,41 +540,20 @@ export default function AdminDashboard() {
                 />
               </div>
               <div>
-                <label className="block mb-1 font-medium" htmlFor="teamRole">Role</label>
-                <div className="relative">
-                  <select
-                    id="teamRole"
-                    name="role"
-                    value={teamForm.role}
-                    onChange={handleTeamChange}
-                    className="w-full px-3 py-2 border rounded-md bg-background text-foreground"
-                    required
-                  >
-                    <option value="">Select a role</option>
-                    <option value="president">President</option>
-                    <option value="co-head">Co-Head</option>
-                    <option value="iot">IoT</option>
-                    <option value="aiot">AIoT</option>
-                    <option value="iort">IORT</option>
-                    <option value="project-lead">Project Lead</option>
-                    <option value="core team">Core Team</option>
-                    <option value="trainee">Trainee</option>
-                    <option value="web/app dev">Web/App Dev</option>
-                    <option value="marketing">Marketing</option>
-                    <option value="custom">Custom...</option>
-                  </select>
-                  {teamForm.role === "custom" && (
-                    <input
-                      type="text"
-                      name="roleCustom"
-                      placeholder="Enter custom role"
-                      value={teamForm.roleCustom}
-                      onChange={handleTeamChange}
-                      className="mt-2 w-full px-3 py-2 border rounded-md bg-background text-foreground"
-                      autoFocus
-                      required
-                    />
-                  )}
+                <label className="block mb-1 font-medium">Roles</label>
+                <div className="flex flex-wrap gap-2">
+                  {ROLE_OPTIONS.map(opt => (
+                    <label key={opt.value} className="flex items-center gap-1">
+                      <input
+                        type="checkbox"
+                        name="roles"
+                        value={opt.value}
+                        checked={teamForm.roles.includes(opt.value)}
+                        onChange={handleTeamChange}
+                      />
+                      {opt.label}
+                    </label>
+                  ))}
                 </div>
               </div>
               <div>
@@ -626,7 +635,11 @@ export default function AdminDashboard() {
                 <li key={mem._id} className="border p-4 rounded flex flex-col md:flex-row md:items-center md:justify-between gap-2 transition-shadow shadow hover:shadow-sm">
                   <div>
                     <div className="font-semibold">{mem.name}</div>
-                    <div className="text-sm text-muted-foreground">{mem.role}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {Array.isArray(mem.role) && mem.role.length > 0
+                        ? mem.role.map(r => ROLE_OPTIONS.find(opt => opt.value === r)?.label || r).join(", ")
+                        : ""}
+                    </div>
                   </div>
                   <div className="flex gap-2">
                     <button onClick={() => handleEditMember(mem)} className="px-3 py-1 bg-blue-500 text-white rounded">Edit</button>

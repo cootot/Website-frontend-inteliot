@@ -11,36 +11,44 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Github, Linkedin, Mail } from "lucide-react"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import api from "@/lib/api"
 
 const ROLE_ORDER = [
+  "faculty coordinator",
+  "student mentor",
   "president",
-  "co-head",
+  "co head",
   "iot",
   "aiot",
   "iort",
-  "project-lead",
-  "core team",
+  "iiot",
+  "team lead",
+  "project lead",
+  "core member",
   "trainee",
   "web/app dev",
-  "marketing"
-]
+  "marketing team"
+];
 const ROLE_LABELS: Record<string, string> = {
+  "faculty coordinator": "Faculty coordinator",
+  "student mentor": "Student Mentor",
   "president": "President",
-  "co-head": "Co-Head",
-  "iot": "IoT",
-  "aiot": "AIoT",
-  "iort": "IORT",
-  "project-lead": "Project Lead",
-  "core team": "Core Team",
+  "co head": "Co head",
+  "iot": "Iot",
+  "aiot": "Aiot",
+  "iort": "Iort",
+  "iiot": "Iiot",
+  "team lead": "Team lead",
+  "project lead": "Project lead",
+  "core member": "Core member",
   "trainee": "Trainee",
   "web/app dev": "Web/App Dev",
-  "marketing": "Marketing"
+  "marketing team": "Marketing team"
 }
 
 export default function Team() {
-  const [teamMembers, setTeamMembers] = useState<any[]>([])
+  const [teamMembers, setTeamMembers] = useState<Array<{_id: string; name: string; role: string[]; bio: string; image: string; github: string; linkedin: string; email: string;}>>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
 
@@ -56,10 +64,19 @@ export default function Team() {
       })
   }, [])
 
+  // Map each member to their highest role (first match in ROLE_ORDER)
+  const memberToHighestRole = (member: any) => {
+    if (!Array.isArray(member.role)) return member.role;
+    for (const role of ROLE_ORDER) {
+      if (member.role.includes(role)) return role;
+    }
+    return member.role[0] || "";
+  };
+  const membersWithHighestRole = teamMembers.map(m => ({ ...m, highestRole: memberToHighestRole(m) }));
   // Group and sort members by role
   const groupedMembers = ROLE_ORDER.map(role => ({
     role,
-    members: teamMembers.filter(m => m.role === role)
+    members: membersWithHighestRole.filter(m => m.highestRole === role)
   })).filter(group => group.members.length > 0)
 
   return (
@@ -99,7 +116,11 @@ export default function Team() {
                           <div className="absolute inset-0 rounded-full shadow-inner" />
                         </div>
                         <CardTitle className="mt-4 text-lg font-semibold">{member.name}</CardTitle>
-                        <CardDescription className="text-sm">{ROLE_LABELS[member.role] || member.role}</CardDescription>
+                        <CardDescription className="text-sm">
+                          {Array.isArray(member.role)
+                            ? member.role.map(r => ROLE_LABELS[r] || r).join(", ")
+                            : (ROLE_LABELS[member.role] || member.role)}
+                        </CardDescription>
                       </CardHeader>
                       <CardContent className="text-center px-6 pb-4">
                         <p className="text-sm text-muted-foreground">{member.bio}</p>

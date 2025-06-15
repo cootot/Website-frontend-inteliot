@@ -102,7 +102,7 @@ export default function Hero() {
         </div>
 
         <h1
-          className="mb-48 max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl"
+          className="mb-32 sm:mb-48 max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl"
           style={resolvedTheme === "dark" ? { textShadow: '0 0 4px #000, 0 0 4px #000, 0 0 4px #000' } : {}}
         >
           Empowering Innovation through Intel IoT

@@ -29,9 +29,9 @@ export default function HackathonPage() {
           {/* Date, Location, Status */}
           <div className="flex flex-col gap-3 md:w-64">
             <div className="px-4 py-2 rounded-md bg-background/80 text-base">Registraion Closing: <span className="font-semibold">June 30 at 11:59 PM</span></div>
-            <div className="px-4 py-2 rounded-md bg-background/80 text-base"><span className="font-semibold">Location: Yet to be announced</span></div>
+            <div className="px-4 py-2 rounded-md bg-background/80 text-base"><span className="font-semibold">Location: Amrita Vishwa Vidyapeetham, Coimbatore</span></div>
             <div className="px-4 py-2 rounded-md bg-background/80 text-base">Status: <span className="font-semibold">Open</span></div>
-            <Link href="/hackathon/register" className="mt-2 w-full block">
+            <Link href="https://forms.office.com/r/ddTi3K1yNR" className="mt-2 w-full block">
               <button className="w-full py-2 px-4 bg-primary text-primary-foreground font-semibold rounded-md hover:bg-primary/90 transition">
                 Register Now
               </button>

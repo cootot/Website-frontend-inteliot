@@ -92,7 +92,11 @@ export default function TimelineCard({ event, idx, batchLabel }: Props) {
             </div>
             <div className="pt-2">
               <h3 className="text-sm font-bold">{event.title}</h3>
-              <p className="text-blue-600 font-medium text-xs">{event.date}</p>
+              <p className="text-blue-600 font-medium text-xs">  {new Date(event.date).toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+              })}</p>
               <p className="mt-1 text-gray-700 text-xs whitespace-pre-line">{event.description}</p>
             </div>
           </div>
@@ -117,7 +121,13 @@ export default function TimelineCard({ event, idx, batchLabel }: Props) {
               </div>
               <div className="pt-6">
                 <h3 className="text-xl font-bold">{event.title}</h3>
-                <p className="text-blue-600 font-semibold">{event.date}</p>
+                <p className="text-blue-600 font-semibold">
+                {new Date(event.date).toLocaleDateString('en-GB', {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric',
+                })}
+              </p>
                 <p className="mt-2 text-gray-700 whitespace-pre-line">{event.description}</p>
               </div>
             </motion.div>
@@ -158,7 +168,13 @@ export default function TimelineCard({ event, idx, batchLabel }: Props) {
               </div>
               <div className="pt-6">
                 <h3 className="text-xl font-bold">{event.title}</h3>
-                <p className="text-blue-600 font-semibold">{event.date}</p>
+                <p className="text-blue-600 font-semibold">
+                {new Date(event.date).toLocaleDateString('en-GB', {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric',
+                })}
+              </p>
                 <p className="mt-2 text-gray-700 whitespace-pre-line">{event.description}</p>
               </div>
             </motion.div>

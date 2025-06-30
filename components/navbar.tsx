@@ -1,14 +1,16 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const pathname = usePathname(); 
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -39,7 +41,9 @@ export default function Navbar() {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative text-sm font-semibold text-muted-foreground transition-all duration-200 hover:text-primary"
+                className={`relative text-sm font-semibold transition-all duration-200 hover:text-primary ${
+  pathname === item.href ? "text-primary" : "text-muted-foreground"
+}`}
               >
                 <span className="group inline-block">
                   {item.name}
@@ -50,8 +54,11 @@ export default function Navbar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="relative text-sm font-semibold text-muted-foreground transition-all duration-200 hover:text-primary"
-              >
+                className={`relative text-sm font-semibold transition-all duration-200 hover:text-primary ${
+  pathname === item.href ? "text-primary" : "text-muted-foreground"
+}`}
+
+               >
                 <span className="group inline-block">
                   {item.name}
                   <span className="block h-[3px] max-w-0 bg-primary transition-all duration-300 group-hover:max-w-full rounded-full"></span>

@@ -19,9 +19,8 @@ export default function Navbar() {
     { name: "Contact", href: "/contact" },
     { name: "Hackathon", href: "/hackathon" },
     { name: "Timeline", href: "/timeline" },
-    { name: "Brochure", href: "/brochure.pdf", target: "_blank" },
-    { name: "Socials", href: "https://linktr.ee/inteliotclub", target: "_blank" },
-
+    { name: "Brochure", href: "/brochure.pdf", external: true },
+    { name: "Socials", href: "https://linktr.ee/inteliotclub", external: true },
   ]
 
   return (
@@ -31,19 +30,35 @@ export default function Navbar() {
           Intel IoT Club
         </Link>
 
+        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
-          {navItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="relative text-sm font-semibold text-muted-foreground transition-all duration-200 hover:text-primary"
-            >
-              <span className="group inline-block">
-                {item.name}
-                <span className="block h-[3px] max-w-0 bg-primary transition-all duration-300 group-hover:max-w-full rounded-full"></span>
-              </span>
-            </Link>
-          ))}
+          {navItems.map((item) =>
+            item.external ? (
+              <a
+                key={item.name}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative text-sm font-semibold text-muted-foreground transition-all duration-200 hover:text-primary"
+              >
+                <span className="group inline-block">
+                  {item.name}
+                  <span className="block h-[3px] max-w-0 bg-primary transition-all duration-300 group-hover:max-w-full rounded-full"></span>
+                </span>
+              </a>
+            ) : (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="relative text-sm font-semibold text-muted-foreground transition-all duration-200 hover:text-primary"
+              >
+                <span className="group inline-block">
+                  {item.name}
+                  <span className="block h-[3px] max-w-0 bg-primary transition-all duration-300 group-hover:max-w-full rounded-full"></span>
+                </span>
+              </Link>
+            )
+          )}
           <ThemeToggle />
           <Link href="/contact">
             <Button size="lg" className="ml-2 text-base font-semibold px-5 py-2.5">
@@ -52,6 +67,7 @@ export default function Navbar() {
           </Link>
         </nav>
 
+        {/* Mobile Toggle */}
         <button
           className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           onClick={() => setIsOpen(!isOpen)}
@@ -61,28 +77,49 @@ export default function Navbar() {
         </button>
       </div>
 
-      <div className={cn(
-        "md:hidden overflow-hidden transition-all duration-500 ease-in-out",
-        isOpen ? "max-h-screen opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-2"
-      )}>
+      {/* Mobile Nav */}
+      <div
+        className={cn(
+          "md:hidden overflow-hidden transition-all duration-500 ease-in-out",
+          isOpen ? "max-h-screen opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-2"
+        )}
+      >
         <div className="rounded-b-xl border-t bg-background px-4 py-4 shadow-md animate-fade-in-down space-y-2">
-          {navItems.map((item, i) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              onClick={() => setIsOpen(false)}
-              className={cn(
-                "block rounded-md px-3 py-2 text-base font-medium text-muted-foreground transition-all hover:bg-muted hover:text-primary",
-                `delay-[${i * 50}ms]`
-              )}
-            >
-              {item.name}
-            </Link>
-          ))}
+          {navItems.map((item, i) =>
+            item.external ? (
+              <a
+                key={item.name}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsOpen(false)}
+                className={cn(
+                  "block rounded-md px-3 py-2 text-base font-medium text-muted-foreground transition-all hover:bg-muted hover:text-primary",
+                  `delay-[${i * 50}ms]`
+                )}
+              >
+                {item.name}
+              </a>
+            ) : (
+              <Link
+                key={item.name}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className={cn(
+                  "block rounded-md px-3 py-2 text-base font-medium text-muted-foreground transition-all hover:bg-muted hover:text-primary",
+                  `delay-[${i * 50}ms]`
+                )}
+              >
+                {item.name}
+              </Link>
+            )
+          )}
           <div className="mt-4 flex items-center justify-between gap-2">
             <ThemeToggle />
             <Link href="/contact">
-              <Button size="sm" className="w-auto">Join the Club</Button>
+              <Button size="sm" className="w-auto">
+                Join the Club
+              </Button>
             </Link>
           </div>
         </div>

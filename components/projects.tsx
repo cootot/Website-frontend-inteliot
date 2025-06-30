@@ -20,6 +20,15 @@ export default function Projects({ initialProjects }: { initialProjects: any[] }
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
+
+  const goToTop=()=>{
+       if(window.scrollY>0){
+          window.scrollTo({
+            top:0,
+            behavior:"smooth"
+          })
+       }
+  }
   useEffect(() => {
     if (!initialProjects || initialProjects.length === 0) {
       setLoading(true)
@@ -33,6 +42,7 @@ export default function Projects({ initialProjects }: { initialProjects: any[] }
           setLoading(false)
         })
     }
+    goToTop()
   }, [initialProjects])
 
   return (

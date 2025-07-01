@@ -1,5 +1,5 @@
+import { ArrowRight, CircuitBoard, Github, Linkedin, Mail } from "lucide-react"
 import Link from "next/link"
-import { CircuitBoard, Github, Linkedin, Mail, ArrowRight } from "lucide-react"
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()

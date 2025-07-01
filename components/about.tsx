@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Users, Target, Lightbulb, Handshake } from "lucide-react"
+import { Handshake, Lightbulb, Target, Users } from "lucide-react"
 
 export default function About() {
   const goals = [

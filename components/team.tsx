@@ -1,5 +1,6 @@
 "use client"
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   Card,
   CardContent,
@@ -8,11 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import api from "@/lib/api"
 import { Github, Linkedin, Mail } from "lucide-react"
 import Link from "next/link"
-import React, { useEffect, useState } from "react"
-import api from "@/lib/api"
+import { useEffect, useState } from "react"
 
 const ROLE_ORDER = [
   "faculty coordinator",

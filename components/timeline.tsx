@@ -1,8 +1,8 @@
 // app/components/Timeline.tsx
 'use client';
 
-import React, { useEffect, useState } from 'react';
 import api from "@/lib/api";
+import { useEffect, useState } from 'react';
 import TimelineCard from './TimeLineCard';
 
 type TimelineEvent = {

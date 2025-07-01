@@ -1,4 +1,4 @@
-import { ArrowRight, CircuitBoard, Github, Linkedin, Mail } from "lucide-react"
+import { ArrowRight, CircuitBoard, Github, Linkedin, Mail, Instagram, MessageCircle, Globe } from "lucide-react"
 import Link from "next/link"
 
 export default function Footer() {
@@ -18,6 +18,13 @@ export default function Footer() {
               Empowering innovation through Intel IoT technologies.
             </p>
             <div className="flex gap-4">
+              <Link
+                href="https://www.instagram.com/inteliotclub"
+                aria-label="Instagram"
+                className="hover:text-foreground transition"
+              >
+                <Instagram className="h-5 w-5" />
+              </Link>
               <Link
                 href="https://github.com/intel-iot-club"
                 aria-label="GitHub"
@@ -39,6 +46,21 @@ export default function Footer() {
               >
                 <Mail className="h-5 w-5" />
               </Link>
+                <Link
+                href="https://linktr.ee/inteliotclub"
+                aria-label="Website"
+                className="hover:text-foreground transition"
+              >
+                <Globe className="h-5 w-5" />
+              </Link>
+              <Link
+                href="https://chat.whatsapp.com/HWfV3OZqdGXAeWRwbMKeC5"
+                aria-label="WhatsApp"
+                className="hover:text-foreground transition"
+              >
+                <MessageCircle className="h-5 w-5" />
+              </Link>
+
             </div>
           </div>
 

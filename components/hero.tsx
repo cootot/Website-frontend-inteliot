@@ -108,7 +108,8 @@ export default function Hero() {
       className="relative overflow-hidden bg-background py-16 lg:py-24 xl:py-32 mb-0 pb-0"
     >
       {show3D ? <Hero3D /> : null}
-      <div className="container relative z-10 flex flex-col items-center justify-center text-center">
+      <div className="container relative z-10 flex flex-col items-center justify-center text-center -mt-5">
+        <img src="/amritalogo.png" alt="Amrita Logo" className="h-24 w-54 -mt-12" />
         <div className="mb-6 inline-flex items-center justify-center rounded-full bg-primary/10 px-3 py-1 text-sm text-primary">
           <img src="/logo.png" alt="IoT Club Logo" className="h-16 w-60" />
         </div>
@@ -125,7 +126,7 @@ export default function Hero() {
         </h1>
 
         <p
-          className="mb-8 lg:mb-10 max-w-2xl text-base lg:text-lg xl:text-xl text-muted-foreground leading-relaxed"
+          className=" mb-8 lg:mb-10 max-w-2xl text-base lg:text-lg xl:text-xl text-muted-foreground leading-relaxed"
           style={
             mounted && resolvedTheme === "dark"
               ? { textShadow: "0 0 2px #000, 0 0 2px #000, 0 0 2px #000" }

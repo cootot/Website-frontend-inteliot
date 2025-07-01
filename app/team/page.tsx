@@ -1,9 +1,9 @@
-import Projects from "@/components/projects";
+import Team from "@/components/team"
 
-export default function ProjectsPage() {
+export default function TeamPage() {
   return (
-    <main className="flex-1 container mx-auto px-4 lg:px-8 xl:px-12 py-8 lg:py-12 xl:py-16">
-      <Projects />
+    <main className="container mx-auto py-0 mb-9">
+      <Team />
     </main>
-  );
+  )
 }

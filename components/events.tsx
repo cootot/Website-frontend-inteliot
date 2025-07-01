@@ -96,7 +96,7 @@ export default function Events({ initialEvents }: { initialEvents: any[] }) {
         ) : (
           <div className="flex flex-col gap-6">
             {events.map((event) => (
-              <EventCard key={event.id} event={event} />
+              <EventCard key={event._id} event={event} />
             ))}
           </div>
         )}

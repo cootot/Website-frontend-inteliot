@@ -1,9 +1,6 @@
 "use client"
 
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import {
   Card,
   CardContent,
@@ -11,6 +8,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import emailjs from "emailjs-com"
 import {
   Github,
   Instagram,
@@ -19,7 +19,7 @@ import {
   MapPin,
 } from "lucide-react"
 import Link from "next/link"
-import emailjs from "emailjs-com"
+import { useState } from "react"
 import { toast } from "sonner"
 
 // EmailJS environment variables

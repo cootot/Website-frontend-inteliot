@@ -1,8 +1,8 @@
 "use client"
-import React, { useState, useEffect } from "react";
-import api from "@/lib/api";
-import { toast } from "@/components/ui/use-toast";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { toast } from "@/components/ui/use-toast";
+import api from "@/lib/api";
+import React, { useEffect, useState } from "react";
 
 interface EventType {
   _id: string;

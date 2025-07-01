@@ -84,4 +84,21 @@
   .subtle-shadow {
     @apply shadow-[0_4px_20px_-5px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_20px_-5px_rgba(0,0,0,0.2)];
   }
+
+  /* Touch-friendly interactions for tablets */
+  .touch-target {
+    touch-action: manipulation;
+    @apply transition-colors duration-200;
+  }
+
+  /* Tablet-specific container padding */
+  .tablet-container {
+    @apply px-6 lg:px-8 xl:px-12;
+  }
+
+  /* Smooth scrolling with momentum for mobile devices */
+  .smooth-scroll {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
 }

@@ -1,10 +1,10 @@
-import type React from "react"
 import "@/app/globals.css"
-import { Inter } from "next/font/google"
-import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
+import Navbar from "@/components/navbar"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
+import { Inter } from "next/font/google"
+import type React from "react"
 
 const inter = Inter({ subsets: ["latin"] })
 

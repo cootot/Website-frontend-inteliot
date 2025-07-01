@@ -1,9 +1,9 @@
 "use client"
 
-import { JSX, useRef, useMemo, useState } from "react"
+import { Environment, Float, OrbitControls, Stars } from "@react-three/drei"
 import { Canvas, useFrame } from "@react-three/fiber"
-import { OrbitControls, Environment, Float, Stars, Html } from "@react-three/drei"
-import { EffectComposer, Bloom, DepthOfField, Noise } from "@react-three/postprocessing"
+import { Bloom, DepthOfField, EffectComposer, Noise } from "@react-three/postprocessing"
+import { JSX, useMemo, useRef, useState } from "react"
 import * as THREE from "three"
 
 const GlassMaterial = new THREE.MeshPhysicalMaterial({

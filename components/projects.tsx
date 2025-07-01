@@ -1,5 +1,6 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -8,12 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Github, ExternalLink, Star } from "lucide-react"
-import Link from "next/link"
-import clsx from "clsx"
-import { useEffect, useState } from "react"
 import api from "@/lib/api"
+import clsx from "clsx"
+import { ExternalLink, Github, Star } from "lucide-react"
+import Link from "next/link"
+import { useEffect, useState } from "react"
 
 export default function Projects({ initialProjects }: { initialProjects: any[] }) {
   const [projects, setProjects] = useState<any[]>(initialProjects || [])

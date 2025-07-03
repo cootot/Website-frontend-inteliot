@@ -31,7 +31,7 @@ export default function HackathonPage() {
             <div className="flex flex-col gap-3 lg:gap-4 lg:w-72 xl:w-80">
               <div className="px-4 lg:px-5 py-2 lg:py-3 rounded-md bg-background/80 text-sm lg:text-base">
                 Registraion Closing:{" "}
-                <span className="font-semibold">June 30 at 11:59 PM</span>
+                <span className="font-semibold">July 10 at 11:59 PM</span>
               </div>
               <div className="px-4 lg:px-5 py-2 lg:py-3 rounded-md bg-background/80 text-sm lg:text-base">
                 <span className="font-semibold">
